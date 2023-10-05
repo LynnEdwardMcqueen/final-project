@@ -18,6 +18,22 @@ def get_property_val_from_user_dict(value, user_dict ):
     return None
 
 # Views go here!
+class Login(Resource):
+    def post(self):
+        login_params = request.get_json()
+
+        user_check = User.query.filter(User.username == login_params["username"]).first()
+
+        # have to check the truthiness of user_check in case the username is not found in the database
+        if (user_check and user_check.authenticate(login_params["password"])) :
+            response = make_response (
+                user_check.to_dict(), 200
+            )
+        else :
+            response = {"error" :"401 - Login Failed"}, 401
+
+        return response
+    
 class Signup(Resource):
     def post(self):
         new_user_params = request.get_json()
@@ -56,8 +72,33 @@ class Signup(Resource):
              response = {}, 422
         
         return response
+    
 
+class UserById(Resource):
+
+    def patch(self, id) :
+
+        user = User.query.filter(User.id == id).first()
+
+        for attr in request.form:
+            setattr(user, attr, request.form[attr])
+
+        db.session.add(user)
+        db.session.commit()
+
+        response_dict = user.to_dict()
+
+        response = make_response(
+            response_dict,
+            200
+        )
+
+        return response
+
+api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(UserById, '/user/<int:id>')
+                 
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
