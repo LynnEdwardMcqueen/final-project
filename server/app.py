@@ -21,9 +21,9 @@ def get_property_val_from_user_dict(value, user_dict ):
 class Login(Resource):
     def post(self):
         login_params = request.get_json()
-
+        print("Here in Login")
         user_check = User.query.filter(User.username == login_params["username"]).first()
-
+        print(f"user_check = ${user_check}")
         # have to check the truthiness of user_check in case the username is not found in the database
         if (user_check and user_check.authenticate(login_params["password"])) :
             response = make_response (

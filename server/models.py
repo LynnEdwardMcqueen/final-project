@@ -24,7 +24,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
 
     def __repr__(self):
-        return f'<User {self.username} {self.id}>'
+        return f'<User {self.username} {self.id} >'
 
     @hybrid_property
     def password_hash(self):
