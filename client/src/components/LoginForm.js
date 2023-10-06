@@ -25,15 +25,22 @@ function Login({onLoginComplete}) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values, null, 2),
-      }).then((user) => {
-        if (user.status == 200) {
-          console.log("SUCCESS!!!!!!!!!!!!!!!!!!!!!!")
- 
-          onLoginComplete(user)
-        } else {
-          console.log("Big probles with the login")
+      }).then((return_data) => {
+        if (return_data.ok) {
+          return_data.json().then((user) => {
+            let userString = JSON.stringify(user)
+            let userObject = JSON.parse(userString)
+
+            console.log(`JSON.parse is ${userObject.username} type is ${typeof(userObject)}`)
+            for (const key in userObject) {
+              let foo5 = userObject[key]
+              console.log(`${key} : ${userObject[key]} ${foo5}`)
+            }
+            console.log(`onLoginComplecte ${typeof(onLoginComplete)} ${onLoginComplete}`)
+            onLoginComplete(userObject)
+          })
         }
-      });
+      })
     },
   });
 

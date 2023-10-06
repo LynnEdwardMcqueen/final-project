@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import LoginForm from "./LoginForm"
 import SignUpForm from "./SignupForm"
 
-function Login( onLoginComplete ) {
+function Login( {onLoginComplete} ) {
     const [showLogin, setShowLogin] = useState(true);
+
+    console.log(`in Login, ${typeof(onLoginComplete)} ${onLoginComplete}`)
   
     return (
       <>

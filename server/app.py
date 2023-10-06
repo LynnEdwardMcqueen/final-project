@@ -42,8 +42,8 @@ class Signup(Resource):
 
         new_user = User(
             username = get_property_val_from_user_dict("username", new_user_params ),
-            firstName = get_property_val_from_user_dict("firstName", new_user_params ),
-            lastName = get_property_val_from_user_dict("lastName", new_user_params ),
+            first_name = get_property_val_from_user_dict("first_name", new_user_params ),
+            last_name = get_property_val_from_user_dict("last_name", new_user_params ),
             email = get_property_val_from_user_dict("email", new_user_params ),
             phone = get_property_val_from_user_dict("phone", new_user_params ),
             address1 = get_property_val_from_user_dict("address1", new_user_params ),

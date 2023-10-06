@@ -6,8 +6,8 @@ function Signup ({onLoginComplete}) {
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username"),
         email: yup.string().email("Invalid email").required("Must enter email"),
-        firstName: yup.string().required("Must enter a first name").max(15),
-        lastName: yup.string().required("Must enter a last name."),
+        first_name: yup.string().required("Must enter a first name").max(15),
+        last_name: yup.string().required("Must enter a last name."),
         phone: yup.string().required("Must enter a phone number").max(12),
         address1: yup.string().required("Must enter an address"),
         address2: yup.string().notRequired(),
@@ -22,8 +22,8 @@ function Signup ({onLoginComplete}) {
     const formik = useFormik({
         initialValues: {
             username: "",
-            firstName: "",
-            lastName: "",
+            first_name: "",
+            last_name: "",
             email: "",
             phone: "",
             address1: "",
@@ -36,7 +36,7 @@ function Signup ({onLoginComplete}) {
         validationSchema: formSchema,
         onSubmit: (values) => {
         console.log(`The submitted values are ${values}`)
-        console.log(`${values.username} ${values.firstName}`)
+        console.log(`${values.username} ${values.first_name}`)
         fetch("signup", {
             method: "POST",
                 headers: {
@@ -44,11 +44,11 @@ function Signup ({onLoginComplete}) {
                 },
                 body: JSON.stringify(values, null, 2),
             }).then((user) => {
-                if (user.status == 200) {
-                    
+                if (user.status == 201) {
                     onLoginComplete(user)
                 } else {
                     console.log("No Sign Up!")
+                    /* Need to put out error indication here */
                 }
             });
         },
@@ -70,26 +70,26 @@ function Signup ({onLoginComplete}) {
             <p style={{ color: "red" }}> {formik.errors.username}</p>
 
 
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor="first_name">First Name</label>
             <br />
             <input
-                id="firstName"
-                name="firstName"
+                id="first_name"
+                name="first_name"
                 onChange={formik.handleChange}
-                value={formik.values.firstName}
+                value={formik.values.first_name}
             />
-            <p style={{ color: "red" }}> {formik.errors.firstName}</p>
+            <p style={{ color: "red" }}> {formik.errors.first_name}</p>
      
 
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor="last_name">Last Name</label>
             <br />
             <input
-                id="lastName"
-                name="lastName"
+                id="last_name"
+                name="last_name"
                 onChange={formik.handleChange}
-                value={formik.values.lastName}
+                value={formik.values.last_name}
             />
-            <p style={{ color: "red" }}> {formik.errors.lastName}</p>
+            <p style={{ color: "red" }}> {formik.errors.last_name}</p>
 
 
             <label htmlFor="email">Email Address</label>

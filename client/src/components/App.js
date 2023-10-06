@@ -7,6 +7,10 @@ function App() {
   const history = useHistory();
   const [user, setLoggedIn] = useState(null)
 
+  function handleLoginUser(user) {
+    setLoggedIn(user)
+  }
+
 
 
   console.log(`user = ${user}`)
@@ -18,7 +22,7 @@ function App() {
   if (!user) {
     return (
       <div>
-        <Login onLoginComplete = {setLoggedIn} />
+        <Login onLoginComplete = {handleLoginUser} />
       </div>
     )
   } else {
@@ -30,7 +34,7 @@ function App() {
           </Route>
   
           <Route path = "/login">
-            <Login onLoginComplete = {setLoggedIn} />
+            <Login onLoginComplete = {handleLoginUser} />
           </Route>
 
         </Switch>
