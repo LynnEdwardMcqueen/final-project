@@ -69,7 +69,7 @@ class Signup(Resource):
                 201
             )
         else:
-             response = {}, 422
+             response = {"error" : "Sign In Failed"   }, 422
         
         return response
     

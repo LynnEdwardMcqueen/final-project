@@ -35,8 +35,7 @@ function Signup ({onLoginComplete}) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-        console.log(`The submitted values are ${values}`)
-        console.log(`${values.username} ${values.first_name}`)
+
         fetch("signup", {
             method: "POST",
                 headers: {
@@ -45,9 +44,19 @@ function Signup ({onLoginComplete}) {
                 body: JSON.stringify(values, null, 2),
             }).then((user) => {
                 if (user.status == 201) {
-                    onLoginComplete(user)
+                    user.json().then((user) => {
+                        /* For some reason the json parsing didn't work.  But we can
+                           fix it as shown below*/
+                        let userString = JSON.stringify(user)
+                        let userObject = JSON.parse(userString)
+                        onLoginComplete(userObject)
+                        })
+                        onLoginComplete(user)
                 } else {
-                    console.log("No Sign Up!")
+                    user.json().then((failData) => {  
+                        console.log(`The fail data is ${failData}`)
+                        alert(`${user.status} - ${failData.error}`)
+                    })
                     /* Need to put out error indication here */
                 }
             });
