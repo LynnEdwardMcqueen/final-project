@@ -23,8 +23,8 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable = False, unique = True)
-    firstName = db.Column(db.String, nullable = False)
-    lastName = db.Column(db.String, nullable = False)
+    first_name = db.Column(db.String, nullable = False)
+    last_name = db.Column(db.String, nullable = False)
     email = db.Column(db.String, nullable = False)
     phone = db.Column(db.String, nullable = False)
     address1 = db.Column(db.String, nullable = False)
@@ -32,6 +32,7 @@ class User(db.Model, SerializerMixin):
     city = db.Column(db.String, nullable = False)
     state = db.Column(db.String, nullable = False)
     zip = db.Column(db.String, nullable = False)
+    photo_url = db.Column(db.String)
     _password_hash = db.Column(db.String)
     horses = db.relationship('UserHorse', backref='user')
 
@@ -57,9 +58,9 @@ class Horse(db.Model, SerializerMixin):
     __tablename__ = 'horses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable = False)
-    vetName = db.Column(db.String, nullable = False)
-    vetNumber = db.Column(db.String, nullable = False)
-    careNotes = db.Column(db.String)
+    vet_name = db.Column(db.String, nullable = False)
+    vet_number = db.Column(db.String, nullable = False)
+    care_notes = db.Column(db.String)
     morning_feed_id = db.Column(db.Integer, db.ForeignKey('morning_feeds.id'))
     evening_feed_id = db.Column(db.Integer, db.ForeignKey('evening_feeds.id'))
     owners = db.relationship('UserHorse', backref='horse')
@@ -68,21 +69,21 @@ class Horse(db.Model, SerializerMixin):
 class MorningFeed(db.Model, SerializerMixin):
     __tablename__ = "morning_feeds"
     id = db.Column(db.Integer, primary_key=True)
-    alfalfaFlakes = db.Column(db.Integer)
-    grassHayFlakes = db.Column(db.Integer)
-    grainPounds = db.Column(db.Integer)
-    grainType = db.Column(db.String)
-    feedNotes = db.Column(db.String)
+    alfalfa_flakes = db.Column(db.Integer)
+    grass_hay_flakes = db.Column(db.Integer)
+    grain_pounds = db.Column(db.Integer)
+    grain_type = db.Column(db.String)
+    feed_notes = db.Column(db.String)
     horse = db.relationship('Horse', backref='morning_feed')
 
 class EveningFeed(db.Model, SerializerMixin):
     __tablename__ = "evening_feeds"
     id = db.Column(db.Integer, primary_key=True)
-    alfalfaFlakes = db.Column(db.Integer)
-    grassHayFlakes = db.Column(db.Integer)
-    grainPounds = db.Column(db.Integer)
-    grainType = db.Column(db.String)
-    feedNotes = db.Column(db.String)
+    alfalfa_flakes = db.Column(db.Integer)
+    grass_hay_flakes = db.Column(db.Integer)
+    grain_pounds = db.Column(db.Integer)
+    grain_type = db.Column(db.String)
+    feed_notes = db.Column(db.String)
     horse = db.relationship('Horse', backref='evening_feed')
 
     
