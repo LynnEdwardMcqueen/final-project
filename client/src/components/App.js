@@ -25,10 +25,11 @@ function App() {
       </div>
     )
   } else {
+    console.log(`App username = ${user.username}`)
     history.push("/")
     return (
       <div>
-        <NavBar />
+        <NavBar username = {user.username} />
         <Switch>
           <Route exact path ="/">
             

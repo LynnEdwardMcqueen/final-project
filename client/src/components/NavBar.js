@@ -14,7 +14,7 @@ const linkStyles = {
   color: "white",
 };
 
-function NavBar() {
+function NavBar({username}) {
   return (
     <div>
  {/*}     <NavLink
