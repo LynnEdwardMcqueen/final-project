@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route, useHistory} from "react-router-dom";
 import Login from "./Login";
+import NavBar from "./NavBar";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
   } else {
     return (
       <div>
+        <NavBar />
         <Switch>
           <Route path ="/">
             <h1>Project Client</h1>;
@@ -41,22 +43,29 @@ function App() {
             <h1>DeleteHorse</h1>
           </Route>
 
-          <Route path = "/MorningSummary">
-            <h1>MorningSummary</h1>
+          <Route path = "/EditHorse">
+            <h1>EditHorse</h1>
           </Route>
 
           <Route path = "/EveningSummary">
             <h1>EveningSummary</h1>
           </Route>
 
-          <Route path = "/logout">
-            <h1>Logout</h1>
-          </Route>
-            
           <Route path = "/login">
             <Login onLoginComplete = {handleLoginUser} />
           </Route>
 
+          <Route path = "/logout">
+            <h1>Logout</h1>
+          </Route>
+            
+          <Route path = "/MorningSummary">
+            <h1>MorningSummary</h1>
+          </Route>
+
+          <Route path = "/ViewHorse">
+            <h1>ViewHorse</h1>
+          </Route>
         </Switch>
       </div>
     )
