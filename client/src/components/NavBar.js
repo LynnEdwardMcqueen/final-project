@@ -27,8 +27,8 @@ function NavBar() {
       >
         Home
     </NavLink> {*/}
-
-      <NavLink
+      {username !== "Admin" ? 
+      (<NavLink
         to="/AddHorse"
         exact
         style={linkStyles}
@@ -38,7 +38,10 @@ function NavBar() {
       >
         Add Horse
       </NavLink>
+      ) : (null) }
       
+      {username !== "Admin" ? 
+      (
       <NavLink
         to="/AddJointOwnership"
         exact
@@ -49,7 +52,10 @@ function NavBar() {
       >
         Add Joint Own.
       </NavLink>
+      ) : (null) }
 
+      {username !== "Admin" ? 
+      (
       <NavLink
         to="/DeleteHorse"
         exact
@@ -60,7 +66,10 @@ function NavBar() {
       >
         Delete Horse
       </NavLink>
+      ) : (null)}
 
+      {username !== "Admin" ? 
+      (
       <NavLink
         to="/EditHorse"
         exact
@@ -71,7 +80,10 @@ function NavBar() {
       >
         Edit Horse
       </NavLink>
+      ) : (null) }
       
+      {username === "Admin" ? 
+      (
       <NavLink
         to="/EveningSummary"
         exact
@@ -82,7 +94,10 @@ function NavBar() {
       >
         Evening Summary
       </NavLink>
+      ) : (null) }
 
+      {username === "Admin" ? 
+      (
       <NavLink
         to="/MorningSummary"
         exact
@@ -93,6 +108,7 @@ function NavBar() {
       >
         Morning Summary
       </NavLink>
+      ) : (null) }
 
       <NavLink
         to="/ViewHorse"
