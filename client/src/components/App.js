@@ -29,6 +29,30 @@ function App() {
             <h1>Project Client</h1>;
           </Route>
   
+          <Route path = "/AddHorse">
+            <h1>AddHorse</h1>
+          </Route>
+
+          <Route path = "/AddJointOwnership">
+            <h1>AddJointOwnership</h1>
+          </Route>
+
+          <Route path = "/DeleteHorse">
+            <h1>DeleteHorse</h1>
+          </Route>
+
+          <Route path = "/MorningSummary">
+            <h1>MorningSummary</h1>
+          </Route>
+
+          <Route path = "/EveningSummary">
+            <h1>EveningSummary</h1>
+          </Route>
+
+          <Route path = "/logout">
+            <h1>Logout</h1>
+          </Route>
+            
           <Route path = "/login">
             <Login onLoginComplete = {handleLoginUser} />
           </Route>

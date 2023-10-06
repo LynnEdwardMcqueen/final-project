@@ -9,7 +9,7 @@ from flask_restful import Resource
 
 # Local imports
 from config import app, db, api
-from models import User
+from models import User, UserHorse
 # Add your model imports
 
 def get_property_val_from_user_dict(value, user_dict ):
@@ -18,6 +18,22 @@ def get_property_val_from_user_dict(value, user_dict ):
     return None
 
 # Views go here!
+class HorseByUserId(Resource):
+    def get(self, id):
+        user_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
+
+        if (user_horses):
+            print("There are horeses!")
+        else:
+            print("No horses")
+
+            response = make_response( {}, 200)
+
+        
+
+
+
+
 class Login(Resource):
     def post(self):
         login_params = request.get_json()
@@ -95,6 +111,7 @@ class UserById(Resource):
 
         return response
 
+api.add_resource(HorseByUserId, '/horse/<int:id>')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(UserById, '/user/<int:id>')
