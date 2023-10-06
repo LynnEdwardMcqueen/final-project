@@ -43,12 +43,12 @@ function Signup ({onLoginComplete}) {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(values, null, 2),
-            }).then((res) => {
-                if (res.status == 200) {
-                    console.log("SUCCESS!!!!!!!!!!!!!!!!!!!!!!")
-                    onLoginComplete(true)
+            }).then((user) => {
+                if (user.status == 200) {
+                    
+                    onLoginComplete(user)
                 } else {
-                    onLoginComplete(false)
+                    console.log("No Sign Up!")
                 }
             });
         },

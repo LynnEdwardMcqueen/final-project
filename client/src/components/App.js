@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route, useHistory} from "react-router-dom";
-import Signup from "./Signup";
 import Login from "./Login";
 
 function App() {
 
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = useState(false)
-  console.log("App Initialization")
-  function handleLoginComplete(loginComplete) {
-    if (loginComplete) {
-      setLoggedIn(true)
-    }
-  }
+  const [user, setLoggedIn] = useState(null)
 
-  console.log("Checking logged in")
-  console.log(`loggedIn = ${loggedIn}`)
-  if (loggedIn === false) {
+
+
+  console.log(`user = ${user}`)
+  if (user === null) {
     console.log("pushing...pushing real good")
     history.push("/login");
   }
   console.log("Exiting logged in")
-  if (!loggedIn) {
+  if (!user) {
     return (
       <div>
-        <Login onLoginComplete = {handleLoginComplete} />
+        <Login onLoginComplete = {setLoggedIn} />
       </div>
     )
   } else {
@@ -36,11 +30,7 @@ function App() {
           </Route>
   
           <Route path = "/login">
-            <Login onLoginComplete = {handleLoginComplete} />
-          </Route>
-
-          <Route path = "/signup">
-            <Signup onLoginComplete = {handleLoginComplete} />
+            <Login onLoginComplete = {setLoggedIn} />
           </Route>
 
         </Switch>

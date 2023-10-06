@@ -7,6 +7,17 @@ from config import db,bcrypt
 
 # Models go here!
 
+# models.py
+
+class UserHorse(db.Model, SerializerMixin):
+    __tablename__ = 'users_horses'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    horse_id = db.Column(db.Integer, db.ForeignKey('horses.id'))
+    
+    def __repr__(self):
+        return f'<User {self.user_id} {self.horse_id} >'
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -22,6 +33,7 @@ class User(db.Model, SerializerMixin):
     state = db.Column(db.String, nullable = False)
     zip = db.Column(db.String, nullable = False)
     _password_hash = db.Column(db.String)
+    horses = db.relationship('UserHorse', backref='user')
 
     def __repr__(self):
         return f'<User {self.username} {self.id} >'
@@ -41,13 +53,36 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
     
-    # this was created sinse the to_dict() method is not working. 
-#    def get_user_dictionary(self):
-#        return {
-#            "username": self.username,
-#            "image_url": self.image_url,
-#            "bio": self.bio,
-#            "id": self.id
-#        }
+class Horse(db.Model, SerializerMixin):
+    __tablename__ = 'horses'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable = False)
+    vetName = db.Column(db.String, nullable = False)
+    vetNumber = db.Column(db.String, nullable = False)
+    careNotes = db.Column(db.String)
+    morning_feed_id = db.Column(db.Integer, db.ForeignKey('morning_feeds.id'))
+    evening_feed_id = db.Column(db.Integer, db.ForeignKey('evening_feeds.id'))
+    owners = db.relationship('UserHorse', backref='horse')
 
 
+class MorningFeed(db.Model, SerializerMixin):
+    __tablename__ = "morning_feeds"
+    id = db.Column(db.Integer, primary_key=True)
+    alfalfaFlakes = db.Column(db.Integer)
+    grassHayFlakes = db.Column(db.Integer)
+    grainPounds = db.Column(db.Integer)
+    grainType = db.Column(db.String)
+    feedNotes = db.Column(db.String)
+    horse = db.relationship('Horse', backref='morning_feed')
+
+class EveningFeed(db.Model, SerializerMixin):
+    __tablename__ = "evening_feeds"
+    id = db.Column(db.Integer, primary_key=True)
+    alfalfaFlakes = db.Column(db.Integer)
+    grassHayFlakes = db.Column(db.Integer)
+    grainPounds = db.Column(db.Integer)
+    grainType = db.Column(db.String)
+    feedNotes = db.Column(db.String)
+    horse = db.relationship('Horse', backref='evening_feed')
+
+    
