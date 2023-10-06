@@ -32,7 +32,6 @@ class User(db.Model, SerializerMixin):
     city = db.Column(db.String, nullable = False)
     state = db.Column(db.String, nullable = False)
     zip = db.Column(db.String, nullable = False)
-    photo_url = db.Column(db.String)
     _password_hash = db.Column(db.String)
     horses = db.relationship('UserHorse', backref='user')
 
@@ -61,6 +60,7 @@ class Horse(db.Model, SerializerMixin):
     vet_name = db.Column(db.String, nullable = False)
     vet_number = db.Column(db.String, nullable = False)
     care_notes = db.Column(db.String)
+    photo_url = db.Column(db.String)
     morning_feed_id = db.Column(db.Integer, db.ForeignKey('morning_feeds.id'))
     evening_feed_id = db.Column(db.Integer, db.ForeignKey('evening_feeds.id'))
     owners = db.relationship('UserHorse', backref='horse')
