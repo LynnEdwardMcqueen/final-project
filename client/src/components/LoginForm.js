@@ -17,8 +17,6 @@ function Login({onLoginComplete}) {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      console.log(`The submitted values are ${values}`)
-      console.log(`${values.username} ${values.firstName}`)
       fetch("login", {
         method: "POST",
         headers: {
@@ -28,16 +26,15 @@ function Login({onLoginComplete}) {
       }).then((return_data) => {
         if (return_data.ok) {
           return_data.json().then((user) => {
+            /* For some reason the json parsing didn't work.  But we can
+               fix it as shown below*/
             let userString = JSON.stringify(user)
             let userObject = JSON.parse(userString)
-
-            console.log(`JSON.parse is ${userObject.username} type is ${typeof(userObject)}`)
-            for (const key in userObject) {
-              let foo5 = userObject[key]
-              console.log(`${key} : ${userObject[key]} ${foo5}`)
-            }
-            console.log(`onLoginComplecte ${typeof(onLoginComplete)} ${onLoginComplete}`)
             onLoginComplete(userObject)
+          })
+        } else {
+          return_data.json().then((fail_data) => {
+            alert(`Login Failed - ${fail_data.error}`)
           })
         }
       })

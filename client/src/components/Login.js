@@ -5,7 +5,7 @@ import SignUpForm from "./SignupForm"
 function Login( {onLoginComplete} ) {
     const [showLogin, setShowLogin] = useState(true);
 
-    console.log(`in Login, ${typeof(onLoginComplete)} ${onLoginComplete}`)
+
   
     return (
       <>

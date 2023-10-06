@@ -11,14 +11,10 @@ function App() {
     setLoggedIn(user)
   }
 
-
-
-  console.log(`user = ${user}`)
   if (user === null) {
-    console.log("pushing...pushing real good")
     history.push("/login");
   }
-  console.log("Exiting logged in")
+
   if (!user) {
     return (
       <div>
