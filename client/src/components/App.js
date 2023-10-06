@@ -27,11 +27,13 @@ function App() {
       <div>
         <NavBar />
         <Switch>
-          <Route path ="/">
+          <Route exact path ="/">
+            
             <h1>Project Client</h1>;
           </Route>
   
           <Route path = "/AddHorse">
+            {console.log("AddHorse")}
             <h1>AddHorse</h1>
           </Route>
 

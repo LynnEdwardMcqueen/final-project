@@ -4,11 +4,13 @@ import { NavLink } from "react-router-dom";
 
 const linkStyles = {
   display: "inline-block",
-  width: "50px",
+  width: "100px",
   padding: "12px",
   margin: "0 6px 6px",
   background: "blue",
   textDecoration: "none",
+  fontSize: "13px",
+  textAlign: "center",
   color: "white",
 };
 
@@ -45,7 +47,7 @@ function NavBar() {
           background: "darkblue",
         }}
       >
-        Add Joint Ownership
+        Add Joint Own.
       </NavLink>
 
       <NavLink
@@ -57,17 +59,6 @@ function NavBar() {
         }}
       >
         Delete Horse
-      </NavLink>
-
-      <NavLink
-        to="/EditHorse"
-        exact
-        style={linkStyles}
-        activeStyle={{
-          background: "darkblue",
-        }}
-      >
-        Edit Horse
       </NavLink>
 
       <NavLink
@@ -112,6 +103,17 @@ function NavBar() {
         }}
       >
         View Horse
+      </NavLink>
+
+      <NavLink
+        to="/Logout"
+        exact
+        style={linkStyles}
+        activeStyle={{
+          background: "darkblue",
+        }}
+      >
+        Logout
       </NavLink>
     </div>
   );
