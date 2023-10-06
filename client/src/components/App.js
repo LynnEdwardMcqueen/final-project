@@ -13,16 +13,19 @@ function App() {
   }
 
   if (user === null) {
+    console.log("Going to push login.  Push it real good.")
     history.push("/login");
   }
 
   if (!user) {
+    console.log("Since !user, going to login")
     return (
       <div>
         <Login onLoginComplete = {handleLoginUser} />
       </div>
     )
   } else {
+    history.push("/")
     return (
       <div>
         <NavBar />
@@ -32,40 +35,40 @@ function App() {
             <h1>Project Client</h1>;
           </Route>
   
-          <Route path = "/AddHorse">
+          <Route exact path = "/AddHorse">
             {console.log("AddHorse")}
             <h1>AddHorse</h1>
           </Route>
 
-          <Route path = "/AddJointOwnership">
+          <Route exact path = "/AddJointOwnership">
             <h1>AddJointOwnership</h1>
           </Route>
 
-          <Route path = "/DeleteHorse">
+          <Route exact path = "/DeleteHorse">
             <h1>DeleteHorse</h1>
           </Route>
 
-          <Route path = "/EditHorse">
+          <Route exact path = "/EditHorse">
             <h1>EditHorse</h1>
           </Route>
 
-          <Route path = "/EveningSummary">
+          <Route exact path = "/EveningSummary">
             <h1>EveningSummary</h1>
           </Route>
 
-          <Route path = "/login">
+          <Route exact path = "/login">
             <Login onLoginComplete = {handleLoginUser} />
           </Route>
 
-          <Route path = "/logout">
+          <Route exact path = "/logout">
             <h1>Logout</h1>
           </Route>
             
-          <Route path = "/MorningSummary">
+          <Route exact path = "/MorningSummary">
             <h1>MorningSummary</h1>
           </Route>
 
-          <Route path = "/ViewHorse">
+          <Route exact path = "/ViewHorse">
             <h1>ViewHorse</h1>
           </Route>
         </Switch>
