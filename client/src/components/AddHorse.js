@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import AddHorseForm from "./AddHorseForm";
 import AddFeedSessionForm from "./AddFeedSessionForm";
 
+// This needs to be declared outside of the AddHorse function so
+// that it retains its contents during re-render
 let newHorseObject = null
 
 function AddHorse({userId}) {
