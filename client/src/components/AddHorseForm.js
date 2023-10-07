@@ -47,7 +47,7 @@ function AddHorseForm({userId}) {
             alert(`Login Failed - ${fail_data.error}`)
           })
         }
-      }) */
+      })
     }, 
   });
 

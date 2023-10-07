@@ -39,7 +39,7 @@ function App() {
           </Route>
   
           <Route exact path = "/AddHorse">
-            <AddHorse />
+            <AddHorse userId = {user.id} />
           </Route>
 
           <Route exact path = "/AddJointOwnership">
