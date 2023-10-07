@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-function AddHorseForm({userId, onSubmit }) {
+function AddFeedSessionForm({horseId, onSubmit, title }) {
 
   const formSchema = yup.object().shape({
-    name: yup.string().required("Must enter a name"),
-    vet_name : yup.string().required("Must enter a veterinarian name"),
-    vet_number : yup.string().required().max(12),
-    care_notes : yup.string().notRequired(),
-    photo_url : yup.string().notRequired(),
+    alfalfa_flakes : yup.number().notrequired(),
+    grass_hay_flakes : yup.number().notrequired(),
+    grain_pounds : yup.number().notrequired(),
+    grain_type : yup.string().notrequired(),
+    feed_notes : yup.string().notRequired(),
     
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      vet_name: "",
-      vet_number: "",    
-      care_notes: "",
-      photo_url : ""
+      alfalfa_flakes: 0,
+      grass_hay_flakes: 0,
+      grain_pounds: 0,    
+      grain_type: "",
+      feed_notes : ""
     },
     validationSchema: formSchema,
-    onSubmit: (values) => {
+    onSubmit: (values) => { console.log("Feed Session Complete!!!!")
+        /*
         console.log("Submission complete!!!")
        
       fetch(`horse/${userId}`, {
@@ -48,64 +49,64 @@ function AddHorseForm({userId, onSubmit }) {
             alert(`Login Failed - ${fail_data.error}`)
           })
         }
-      })
+      }) */
     }, 
   });
 
   return (
     <div>
-      <h1>Horse Data Form</h1>
+      <h1>{title}</h1>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
 
-      <label htmlFor="name">Horse's Name</label>
+      <label htmlFor="alfalfa_flakes">Alfalfa Flakes</label>
         <br />
         <input
-          id="name"
-          name="name"
+          id="alfalfa_flakes"
+          alfalfa_flakes="alfalfa_flakes"
           onChange={formik.handleChange}
-          value={formik.values.name}
+          value={formik.values.alfalfa_flakes}
         />
-        <p style={{ color: "red" }}> {formik.errors.name}</p>
+        <p style={{ color: "red" }}> {formik.errors.alfalfa_flakes}</p>
 
-        <label htmlFor="vet_name">Veterinarian's Name</label>
+        <label htmlFor="grass_hay_flakes">Grass Hay Flakes</label>
         <br />
         <input
-          id="vet_name"
-          name="vet_name"
+          id="grass_hay_flakes"
+          name="grass_hay_flakes"
           onChange={formik.handleChange}
-          value={formik.values.vet_name}
+          value={formik.values.grass_hay_flakes}
         />
-        <p style={{ color: "red" }}> {formik.errors.vet_name}</p>
+        <p style={{ color: "red" }}> {formik.errors.grass_hay_flakes}</p>
 
-        <label htmlFor="vet_number">Veterinarian's Phone Number</label>
+        <label htmlFor="grain_pounds">Pounds of Grain</label>
         <br />
         <input
-          id="vet_number"
-          name="vet_number"
+          id="grain_pounds"
+          name="grain_pounds"
           onChange={formik.handleChange}
-          value={formik.values.vet_number}
+          value={formik.values.grain_pounds}
         />
-        <p style={{ color: "red" }}> {formik.errors.vet_number}</p>
+        <p style={{ color: "red" }}> {formik.errors.grain_pounds}</p>
 
-        <label htmlFor="care_notes">General Care Notes</label>
+        <label htmlFor="grain_type">Grain Type</label>
         <br />
         <textarea
-          id="care_notes"
-          name="care_notes"
+          id="grain_type"
+          name="grain_type"
           onChange={formik.handleChange}
-          value={formik.values.care_notes}
+          value={formik.values.grain_type}
         />
-        <p style={{ color: "red" }}> {formik.errors.care_notes}</p>
+        <p style={{ color: "red" }}> {formik.errors.grain_type}</p>
 
-        <label htmlFor="photo_url">Photo URL</label>
+        <label htmlFor="feed_notes">Feed Notes</label>
         <br />
         <input
-          id="photo_url"
-          name="photo_url"
+          id="feed_notes"
+          name="feed_notes"
           onChange={formik.handleChange}
-          value={formik.values.photo_url}
+          value={formik.values.feed_notes}
         />
-        <p style={{ color: "red" }}> {formik.errors.photo_url}</p>
+        <p style={{ color: "red" }}> {formik.errors.feed_notes}</p>
 
         <button type="submit">Submit</button>
 
@@ -115,4 +116,4 @@ function AddHorseForm({userId, onSubmit }) {
   );
 };
 
-export default AddHorseForm;
+export default AddFeedSessionForm;
