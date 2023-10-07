@@ -9,7 +9,7 @@ from flask_restful import Resource
 
 # Local imports
 from config import app, db, api
-from models import User, UserHorse
+from models import Horse, User, UserHorse
 # Add your model imports
 
 def get_property_val_from_user_dict(value, user_dict ):
@@ -20,6 +20,7 @@ def get_property_val_from_user_dict(value, user_dict ):
 # Views go here!
 class HorseByUserId(Resource):
     def get(self, id):
+        print("HorseByUserId ")
         user_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
 
         if (user_horses):
@@ -28,6 +29,59 @@ class HorseByUserId(Resource):
             print("No horses")
 
             response = make_response( {}, 200)
+
+    def put(self, id):
+        login_params = request.get_json()
+        print("here in put horse by user id")
+
+        new_horse = Horse (
+                name = login_params.name,
+                vet_name = login_params.vet_name,
+                vet_number = login_params.vet_number,
+                care_notes = login_params.care_notes,
+                photo_url = login_params.photo_url)
+        
+        print(f"new_horse = {new_horse}")
+        new_horse_added = True
+        try:
+            db.session.add(new_horse)
+            db.session.commit()
+        except:
+            new_horse_added = False
+        
+        if (new_horse_added):
+            print("Making entry in the join table")
+            new_join_entry = UserHorse(horse_id = new_horse.id,
+                                       user_id = id
+                                      )
+            
+            print(f"new join entry {new_join_entry}")
+            join_table_added = True
+            try:
+                db.session.add(new_join_entry)
+                db.session.commit()
+            except:
+                join_table_added = False
+
+        if new_horse_added and join_table_added:
+            print("Sending the response data")
+            response_data = new_horse.to_dict()
+
+            response = make_response( response_data, 201)
+
+
+        else:
+            response = make_response({}, 500 )
+
+        return response
+
+            
+
+
+        }
+
+        
+
 
         
 

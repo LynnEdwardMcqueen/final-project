@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, useHistory} from "react-router-dom";
 import Login from "./Login";
 import NavBar from "./NavBar";
+import AddHorse from "./AddHorse"
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
 
   function handleLoginUser(user) {
     setLoggedIn(user)
+    history.push("/")
   }
 
   if (user === null) {
@@ -26,7 +28,7 @@ function App() {
     )
   } else {
     console.log(`App username = ${user.username}`)
-    history.push("/")
+    
     return (
       <div>
         <NavBar username = {user.username} />
@@ -37,8 +39,7 @@ function App() {
           </Route>
   
           <Route exact path = "/AddHorse">
-            {console.log("AddHorse")}
-            <h1>AddHorse</h1>
+            <AddHorse />
           </Route>
 
           <Route exact path = "/AddJointOwnership">

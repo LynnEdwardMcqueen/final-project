@@ -16,7 +16,7 @@ class UserHorse(db.Model, SerializerMixin):
     horse_id = db.Column(db.Integer, db.ForeignKey('horses.id'))
     
     def __repr__(self):
-        return f'<User {self.user_id} {self.horse_id} >'
+        return f'<UserHorse user_id = {self.user_id} horse_id = {self.horse_id} >'
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -64,6 +64,9 @@ class Horse(db.Model, SerializerMixin):
     morning_feed_id = db.Column(db.Integer, db.ForeignKey('morning_feeds.id'))
     evening_feed_id = db.Column(db.Integer, db.ForeignKey('evening_feeds.id'))
     owners = db.relationship('UserHorse', backref='horse')
+
+    def __repr__(self):
+        return f'<Horse name = {self.name} id = {self.id} >'
 
 
 class MorningFeed(db.Model, SerializerMixin):
