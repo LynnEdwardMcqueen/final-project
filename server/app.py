@@ -30,7 +30,7 @@ class HorseByUserId(Resource):
 
             response = make_response( {}, 200)
 
-    def put(self, id):
+    def post(self, id):
         login_params = request.get_json()
         print("here in put horse by user id")
 
