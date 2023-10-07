@@ -9,10 +9,15 @@ let newHorseObject = null
 function AddHorse({userId}) {
     const [reRender, setReRender] = useState(0)
  
-
-    function handleMorningFeedSubmit() {
-
+    function handleFeedSubmit() {
+        // This will cause a re-render and guide the conditional rendering.
+        // When the evening feed session form is complete, nothing will be
+        // rendered!
+        setReRender(reRender + 1)
     }
+
+    
+
     function handleHorseSubmit(horseObject) {
         console.log("Here in handleHorseSubmit")
         console.log(`The horse's name is ${horseObject.name}`)
@@ -37,7 +42,11 @@ function AddHorse({userId}) {
         ) : (null)}
 
         {reRender == 1  ? (
-        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleMorningFeedSubmit} title = {"Morning Feed Information"}/>    
+        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Morning Feed Information"}/>    
+        ) : (null)}
+
+        {reRender == 2  ? (
+        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"}/>    
         ) : (null)}
     </>
     )

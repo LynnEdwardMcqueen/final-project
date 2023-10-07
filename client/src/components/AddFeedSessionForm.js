@@ -24,6 +24,7 @@ function AddFeedSessionForm({horseId, onSubmit, title }) {
     },
     validationSchema: formSchema,
     onSubmit: (values) => { console.log("Feed Session Complete!!!!")
+        onSubmit()
         /*
         console.log("Submission complete!!!")
        
