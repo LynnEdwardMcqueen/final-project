@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+
+
 function AddFeedSessionForm({horseId, onSubmit, title }) {
 
   const formSchema = yup.object().shape({
-    alfalfa_flakes : yup.number().notrequired(),
-    grass_hay_flakes : yup.number().notrequired(),
-    grain_pounds : yup.number().notrequired(),
-    grain_type : yup.string().notrequired(),
+    alfalfa_flakes : yup.number().notRequired(),
+    grass_hay_flakes : yup.number().notRequired(),
+    grain_pounds : yup.number().notRequired(),
+    grain_type : yup.string().notRequired(),
     feed_notes : yup.string().notRequired(),
     
   });
@@ -90,7 +92,7 @@ function AddFeedSessionForm({horseId, onSubmit, title }) {
 
         <label htmlFor="grain_type">Grain Type</label>
         <br />
-        <textarea
+        <input
           id="grain_type"
           name="grain_type"
           onChange={formik.handleChange}

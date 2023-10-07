@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import AddHorseForm from "./AddHorseForm";
 import AddFeedSessionForm from "./AddFeedSessionForm";
 
+let newHorseObject = null
+
 function AddHorse({userId}) {
     const [reRender, setReRender] = useState(0)
-    let newHorseObject 
+ 
 
     function handleMorningFeedSubmit() {
 
@@ -21,6 +23,8 @@ function AddHorse({userId}) {
 
     if (newHorseObject) {
         console.log(`newHorseObject.name = ${newHorseObject.name}`)
+    } else {
+        console.log(`The value of newHorseObject is ${newHorseObject}`)
     }
     console.log(`Rendering with reRender = ${reRender}`)
 
