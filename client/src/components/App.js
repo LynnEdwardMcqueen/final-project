@@ -33,11 +33,7 @@ function App() {
       <div>
         <NavBar username = {user.username} />
         <Switch>
-          <Route exact path ="/">
-            
-            <h1>Project Client</h1>;
-          </Route>
-  
+ 
           <Route exact path = "/AddHorse">
             <AddHorse userId = {user.id} />
           </Route>
@@ -73,6 +69,11 @@ function App() {
           <Route exact path = "/ViewHorse">
             <h1>ViewHorse</h1>
           </Route>
+
+          <Route path ="/">
+            <h1>Project Client</h1>;
+          </Route>
+ 
         </Switch>
       </div>
     )

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 
-function AddFeedSessionForm({horseId, onSubmit, title }) {
+function AddFeedSessionForm({horseId, onSubmit, title, route }) {
 
   const formSchema = yup.object().shape({
     alfalfa_flakes : yup.number().notRequired(),
@@ -23,12 +23,11 @@ function AddFeedSessionForm({horseId, onSubmit, title }) {
       feed_notes : ""
     },
     validationSchema: formSchema,
-    onSubmit: (values) => { console.log("Feed Session Complete!!!!")
-        onSubmit()
-        /*
-        console.log("Submission complete!!!")
+    onSubmit: (values) => {     
+      console.log("Submission complete!!!")
        
-      fetch(`horse/${userId}`, {
+      console.log("Launching the post")
+      fetch(`${route}/${horseId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,10 +48,10 @@ function AddFeedSessionForm({horseId, onSubmit, title }) {
           })
         } else {
           return_data.json().then((fail_data) => {
-            alert(`Login Failed - ${fail_data.error}`)
+            alert(`Eat submission failed - ${fail_data.error}`)
           })
         }
-      }) */
+      })
     }, 
   });
 

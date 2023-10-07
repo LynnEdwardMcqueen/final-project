@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useHistory, Redirect} from "react-router-dom";
 import AddHorseForm from "./AddHorseForm";
 import AddFeedSessionForm from "./AddFeedSessionForm";
+
 
 // This needs to be declared outside of the AddHorse function so
 // that it retains its contents during re-render
@@ -13,9 +15,19 @@ function AddHorse({userId}) {
         // This will cause a re-render and guide the conditional rendering.
         // When the evening feed session form is complete, nothing will be
         // rendered!
+       
+
         setReRender(reRender + 1)
+
     }
 
+    function handleFeedSubmitFinal() {
+        console.log("Final Feed submit")
+    //    setReRender(reRender + 1)
+    
+        return(< Redirect to="/" /> )
+
+    }
     
 
     function handleHorseSubmit(horseObject) {
@@ -35,18 +47,22 @@ function AddHorse({userId}) {
     }
     console.log(`Rendering with reRender = ${reRender}`)
 
-    return(
+    return (
     <>
         {reRender == 0 ? (
         <AddHorseForm userId = {userId} onSubmit = {handleHorseSubmit} />
         ) : (null)}
 
         {reRender == 1  ? (
-        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Morning Feed Information"}/>    
+        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Morning Feed Information"} route = {"morning"} />    
         ) : (null)}
 
         {reRender == 2  ? (
-        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"}/>    
+        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"} route =  {"evening"} />    
+        ) : (null)}
+        
+        {reRender === 3 ? (
+        < Redirect to="/" />
         ) : (null)}
     </>
     )
