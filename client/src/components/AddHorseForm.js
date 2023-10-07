@@ -24,7 +24,7 @@ function AddHorseForm({userId}) {
     onSubmit: (values) => {
         console.log("Submission complete!!!")
        
-      fetch(`horse/{userId}`, {
+      fetch(`horse/${userId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
