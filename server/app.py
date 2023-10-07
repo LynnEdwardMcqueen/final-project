@@ -9,13 +9,43 @@ from flask_restful import Resource
 
 # Local imports
 from config import app, db, api
-from models import Horse, User, UserHorse
+from models import Horse, User, UserHorse, MorningFeed, EveningFeed
 # Add your model imports
 
 def get_property_val_from_user_dict(value, user_dict ):
     if value in user_dict:
         return user_dict[value]
     return None
+
+# The id parameter is the id of the horse associated with this morning feed data
+class EveningFeed(Resource):
+    
+    def post(self, horse_id):
+        feed_params = request.get_json()
+
+        new_evening_feed = EveningFeed(
+            alfalfa_flakes = feed_params.alfalfa_flakes,
+            grass_hay_flakes = feed_params.grass_hay_flakes,
+            grain_pounds = feed_params.grain_pounds,
+            grain_type = feed_params.grain_type,
+            feed_notes = feed_params.feed_notes
+        )
+
+        db.session.add(new_evening_feed)
+        db.session.commit()
+
+        horse = Horse.query.filter(Horse.id == horse_id).first()
+        horse.evening_feed_id = new_evening_feed.id
+
+        db.session.add(horse)
+        db.session.commit()
+        
+        response = make_response(
+            new_evening_feed.get_evening_feed_dictionary(),
+            201
+        )
+
+        return response
 
 # Views go here!
 class HorseByUserId(Resource):
@@ -97,6 +127,40 @@ class Login(Resource):
 
         return response
     
+# The id parameter is the id of the horse associated with this morning feed data
+class MorningFeed(Resource):
+    
+    def post(self, horse_id):
+        print("The horse id = {horse_id}")
+        feed_params = request.get_json()
+
+        new_morning_feed = MorningFeed(
+            alfalfa_flakes = feed_params.alfalfa_flakes,
+            grass_hay_flakes = feed_params.grass_hay_flakes,
+            grain_pounds = feed_params.grain_pounds,
+            grain_type = feed_params.grain_type,
+            feed_notes = feed_params.feed_notes
+        )
+
+        db.session.add(new_morning_feed)
+        db.session.commit()
+
+        print("The new morning feed id = {new_morning_feed.id}")
+        horse = Horse.query.filter(Horse.id == horse_id).first()
+        horse.morning_feed_id = new_morning_feed.id
+
+        db.session.add(horse)
+        db.session.commit()
+        
+        response = make_response(
+            new_morning_feed.get_morning_feed_dictionary(),
+            201
+        )
+
+        return response
+
+
+
 class Signup(Resource):
     def post(self):
         new_user_params = request.get_json()
@@ -158,8 +222,11 @@ class UserById(Resource):
 
         return response
 
+
+api.add_resource(EveningFeed, '/evening/<int:id>')
 api.add_resource(HorseByUserId, '/horse/<int:id>')
 api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(MorningFeed, '/morning/<int:id>')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(UserById, '/user/<int:id>')
                  
