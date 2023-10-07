@@ -78,8 +78,6 @@ class HorseByUserId(Resource):
             
 
 
-        }
-
         
 
 

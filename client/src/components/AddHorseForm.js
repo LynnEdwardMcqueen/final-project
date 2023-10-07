@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-function AddHorseForm() {
+function AddHorseForm({userId}) {
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter a name"),
@@ -23,8 +23,8 @@ function AddHorseForm() {
     validationSchema: formSchema,
     onSubmit: (values) => {
         console.log("Submission complete!!!")
-       /*
-      fetch("login", {
+       
+      fetch(`horse/{userId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,12 +32,15 @@ function AddHorseForm() {
         body: JSON.stringify(values, null, 2),
       }).then((return_data) => {
         if (return_data.ok) {
-          return_data.json().then((user) => {
+          return_data.json().then((newHorse) => {
             // For some reason the json parsing didn't work.  But we can
             // fix it as shown below
-            let userString = JSON.stringify(user)
-            let userObject = JSON.parse(userString)
-            onLoginComplete(userObject)
+            console.log(`new_horse id = ${newHorse.id}`)
+            let horseString = JSON.stringify(newHorse)
+            console.log(horseString)
+            let horseObject = JSON.parse(horseString)
+            console.log(horseObject.name)
+            
           })
         } else {
           return_data.json().then((fail_data) => {
