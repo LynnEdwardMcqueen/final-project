@@ -38,6 +38,22 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<User {self.username} {self.id} >'
 
+    # this was created sinse the to_dict() method is not working. 
+    def get_user_dictionary(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "phone": self.phone,
+            "address1": self.address1,
+            "address2": self.address2,
+            "city": self.city,
+            "state": self.state,
+            "zip": self.zip,
+        }
+
     @hybrid_property
     def password_hash(self):
         raise AttributeError("password hash access restricted")
@@ -65,6 +81,15 @@ class Horse(db.Model, SerializerMixin):
     evening_feed_id = db.Column(db.Integer, db.ForeignKey('evening_feeds.id'))
     owners = db.relationship('UserHorse', backref='horse')
 
+    def get_horse_dictionary(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "vet_name": self.vet_name,
+            "vet_number": self.vet_number,
+            "care_notes": self.care_notes,
+            "photo_url": self.photo_url,
+        }
     def __repr__(self):
         return f'<Horse name = {self.name} id = {self.id} >'
 

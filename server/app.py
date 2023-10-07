@@ -31,15 +31,20 @@ class HorseByUserId(Resource):
             response = make_response( {}, 200)
 
     def post(self, id):
-        login_params = request.get_json()
+        horse_params = request.get_json()
         print("here in put horse by user id")
+        print(horse_params)
+        for key in horse_params.keys():
+            print(f"horse_params {key} and {horse_params[key]}")
+       
 
         new_horse = Horse (
-                name = login_params.name,
-                vet_name = login_params.vet_name,
-                vet_number = login_params.vet_number,
-                care_notes = login_params.care_notes,
-                photo_url = login_params.photo_url)
+                name = get_property_val_from_user_dict("name", horse_params),    
+                vet_name = get_property_val_from_user_dict("vet_name", horse_params),
+                vet_number = get_property_val_from_user_dict("vet_number", horse_params),
+                care_notes = get_property_val_from_user_dict("care_notes", horse_params),
+                photo_url = get_property_val_from_user_dict("photo_url", horse_params)
+        )
         
         print(f"new_horse = {new_horse}")
         new_horse_added = True
@@ -65,7 +70,7 @@ class HorseByUserId(Resource):
 
         if new_horse_added and join_table_added:
             print("Sending the response data")
-            response_data = new_horse.to_dict()
+            response_data = new_horse.get_horse_dictionary()
 
             response = make_response( response_data, 201)
 
@@ -75,27 +80,17 @@ class HorseByUserId(Resource):
 
         return response
 
-            
-
-
-        
-
-
-        
-
-
-
 
 class Login(Resource):
     def post(self):
         login_params = request.get_json()
-        print("Here in Login")
+        print("Here in Login*********************************")
         user_check = User.query.filter(User.username == login_params["username"]).first()
         print(f"user_check = ${user_check}")
         # have to check the truthiness of user_check in case the username is not found in the database
         if (user_check and user_check.authenticate(login_params["password"])) :
             response = make_response (
-                user_check.to_dict(), 200
+                user_check.get_user_dictionary(), 200
             )
         else :
             response = {"error" :"401 - Login Failed"}, 401
@@ -133,7 +128,7 @@ class Signup(Resource):
         if new_user_added:
             session["user_id"] = new_user.id
             response = make_response(
-                new_user.to_dict(),
+                new_user.get_user_dictionary(),
                 201
             )
         else:
