@@ -104,6 +104,16 @@ class MorningFeed(db.Model, SerializerMixin):
     feed_notes = db.Column(db.String)
     horse = db.relationship('Horse', backref='morning_feed')
 
+    def get_morning_feed_dictionary(self):
+        return {
+            "id": self.id,
+            "alfalfa_flakes": self.alfalfa_flakes,
+            "grass_hay_flakes": self.grass_hay_flakes,
+            "grain_pounds": self.grain_pounds,
+            "grain_type": self.grain_type,
+            "feed_notes": self.feed_notes,
+        }
+
 class EveningFeed(db.Model, SerializerMixin):
     __tablename__ = "evening_feeds"
     id = db.Column(db.Integer, primary_key=True)
@@ -113,5 +123,16 @@ class EveningFeed(db.Model, SerializerMixin):
     grain_type = db.Column(db.String)
     feed_notes = db.Column(db.String)
     horse = db.relationship('Horse', backref='evening_feed')
+
+    def get_evening_feed_dictionary(self):
+        return {
+            "id": self.id,
+            "alfalfa_flakes": self.alfalfa_flakes,
+            "grass_hay_flakes": self.grass_hay_flakes,
+            "grain_pounds": self.grain_pounds,
+            "grain_type": self.grain_type,
+            "feed_notes": self.feed_notes,
+        }
+
 
     
