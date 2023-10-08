@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CardContainer from "./CardContainer"
+import './Card.css'
 
 
 function ViewHorse({userId}) {

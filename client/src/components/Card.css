@@ -7,7 +7,7 @@
 }
 
 .card-img {
-    width: 50%; - makes width 50% of the card
+    width: 50%;
 }
 
 .center-align {
@@ -21,6 +21,7 @@
     font-size: 1em;
     text-align: center;
     text-transform: capitalize;
+    color: blue
 }
 
 .card-desc {
@@ -31,7 +32,7 @@
 .card-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; This is to keep it from scrolling infinitely horizontal
+    flex-wrap: wrap;
     
     border: 1px solid red;
 }

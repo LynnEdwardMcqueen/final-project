@@ -1,6 +1,7 @@
 
 import React from "react";
 import HorseCard from "./HorseCard"
+import "./Card.css";
 
 function CardContainer({horseList, onClick}) {
     console.log(`in CardContainer ${horseList}`)

@@ -1,5 +1,6 @@
 import { Switch, Route, useHistory} from "react-router-dom";
 import React, { useState } from "react";
+import "./Card.css"
 
 function HorseCard({ cardImg, name}) {
     return (
