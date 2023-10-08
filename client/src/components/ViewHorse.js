@@ -17,7 +17,6 @@ function ViewHorse({userId}) {
 
     function handleCardClick(event) {
         horseArrayIndex = event.target.getAttribute("horseindex")
-        console.log(`displayHorses[horseArrayIndex].keys() = ${displayHorses[horseArrayIndex].morning_feed_id}`)
         setReRender(reRender + 1)
     }
 
@@ -32,18 +31,18 @@ function ViewHorse({userId}) {
 
     return ( 
         <>
-            {(reRender == 0) ? (
-            <CardContainer horseList = {displayHorses} titleMessage = "Click on Horse To View Details" onClick = {handleCardClick}  />
+            {(reRender === 0) ? (
+            <CardContainer horseList = {displayHorses} titleMessage = "Click on Horse To View" onClick = {handleCardClick}  />
             ) : (null) }
 
-            {reRender == 1 ? (
+            {reRender === 1 ? (
             <>    
             <DisplayHorseInfo horse = {displayHorses[horseArrayIndex]} index = {horseArrayIndex}  />
             <button onClick = {handleExitClick}>Click to Exit</button>
             </>
             ) : (null) }
 
-            {reRender == 2 ? (
+            {reRender === 2 ? (
             < Redirect to="/" />
             ): (null) }
         </>

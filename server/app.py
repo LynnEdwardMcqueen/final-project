@@ -65,12 +65,29 @@ class HorseByOtherId(Resource):
     def get(self,id):
         print("HorseByOtherId")
 
-        non_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
+        possible_non_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
+        possible_non_owned_ids = []
+        for horse in possible_non_owned_horses:
+            possible_non_owned_ids.append(horse.horse_id)
 
+        user_owned_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
+        owned_ids = []
+        for horse in user_owned_horses:
+            owned_ids.append(horse.horse_id)
+
+        user_unowned_horses = []
+        for id in possible_non_owned_ids:
+            if id not in owned_ids:
+                user_unowned_horses.append(id)
+        
+        print(f"*****************The unowned horses are {user_unowned_horses}")
+
+
+       
         non_owned_horse_array = []
-        if non_owned_horses:
-            for horse in non_owned_horses:
-                horse = Horse.query.filter(Horse.id == horse.horse_id).first()
+        if user_unowned_horses:
+            for horse_id in user_unowned_horses:
+                horse = Horse.query.filter(Horse.id == horse_id).first()
                 non_owned_horse_array.append(horse.get_horse_dictionary())
 
             response = make_response(non_owned_horse_array, 200)
@@ -78,6 +95,22 @@ class HorseByOtherId(Resource):
             response = make_response([], 200)
 
         return response
+    
+    def post(self, id):
+        horse_params = request.get_json()
+    
+        user_horse = UserHorse(
+            user_id = id,
+            horse_id = horse_params["horse_id"]
+        )
+        
+        db.session.add(user_horse)
+        db.session.commit()
+        
+        response = make_response([], 202)
+        return response
+
+
 
 
 
