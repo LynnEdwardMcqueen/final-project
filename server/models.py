@@ -89,6 +89,8 @@ class Horse(db.Model, SerializerMixin):
             "vet_number": self.vet_number,
             "care_notes": self.care_notes,
             "photo_url": self.photo_url,
+            "morning_feed_id" : self.morning_feed_id,
+            "evening_feed_id" : self.evening_feed_id
         }
     def __repr__(self):
         return f'<Horse name = {self.name} id = {self.id} >'

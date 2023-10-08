@@ -19,7 +19,16 @@ def get_property_val_from_user_dict(value, user_dict ):
 
 # The id parameter is the id of the horse associated with this morning feed data
 class EveningFeeding(Resource):
-    
+
+    def get(self, id):
+        eveningFeed = EveningFeed.query.filter(EveningFeed.id == id).first()
+
+        response = make_response(
+            eveningFeed.get_evening_feed_dictionary(),
+            200
+        )
+        return response
+   
     def post(self, id):
         feed_params = request.get_json()
 
@@ -47,6 +56,8 @@ class EveningFeeding(Resource):
         )
 
         return response
+    
+
 
 # Views go here!
 class HorseByUserId(Resource):
@@ -141,6 +152,15 @@ class Login(Resource):
     
 # The id parameter is the id of the horse associated with this morning feed data
 class MorningFeeding(Resource):
+    def get(self, id):
+        morningFeed = MorningFeed.query.filter(MorningFeed.id == id).first()
+
+        response = make_response(
+            morningFeed.get_morning_feed_dictionary(),
+            200
+        )
+
+        return response
     
     def post(self, id):
         print("The horse id in MorningFeed post = {id}")
