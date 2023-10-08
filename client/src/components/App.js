@@ -3,6 +3,7 @@ import { Switch, Route, useHistory} from "react-router-dom";
 import Login from "./Login";
 import NavBar from "./NavBar";
 import AddHorse from "./AddHorse"
+import ViewHorse from "./ViewHorse"
 
 function App() {
 
@@ -67,7 +68,7 @@ function App() {
           </Route>
 
           <Route exact path = "/ViewHorse">
-            <h1>ViewHorse</h1>
+            <h1><ViewHorse userId = {user.id} /></h1>
           </Route>
 
           <Route path ="/">

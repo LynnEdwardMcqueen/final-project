@@ -51,15 +51,26 @@ class EveningFeeding(Resource):
 # Views go here!
 class HorseByUserId(Resource):
     def get(self, id):
+        
         print("HorseByUserId ")
+        # Get the join table horse entries corresponding to the user
         user_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
 
         if (user_horses):
-            print("There are horeses!")
+            horse_array = []
+            for user_horse in user_horses:
+                print(f"horse_id = {user_horse.horse_id}")
+                horse = Horse.query.filter(Horse.id == user_horse.horse_id).first()
+                print(horse)
+                horse_array.append(horse.get_horse_dictionary())
+
+            response = make_response(horse_array, 200)
+            
         else:
             print("No horses")
-
             response = make_response( {}, 200)
+
+        return response
 
     def post(self, id):
         horse_params = request.get_json()
@@ -87,7 +98,7 @@ class HorseByUserId(Resource):
         
         if (new_horse_added):
             print("Making entry in the join table")
-            new_join_entry = UserHorse(id = new_horse.id,
+            new_join_entry = UserHorse(horse_id = new_horse.id,
                                        user_id = id
                                       )
             
