@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import DisplayFeedingInformation from "./DisplayFeedingInformation";
 
 function DisplayHorseInfo({horse, index}) {
     const [morningData, setMorningData] = useState({})
@@ -19,11 +20,26 @@ function DisplayHorseInfo({horse, index}) {
     useEffect(() => {
         fetch(`/evening/${horse.evening_feed_id}`)
           .then((r) => r.json())
-          .then((morningData) => {
+          .then((eveningData) => {
             setEveningData(eveningData)
           });
         }, []);
-    return(<p>Made it to DisplayHorseInfo!</p>)
+    return(
+        <div>
+            <p>Information for {horse.name}</p>
+
+            <ul>Vet Contact and Care Info
+                <li>Vet Name and Number:  {horse.vet_name} {horse.vet_number}</li>
+                <li>Care Notes: {horse.care_notes}</li>
+            </ul>
+
+            <DisplayFeedingInformation timeOfDay = "Morning" feedData = {morningData} />
+            <DisplayFeedingInformation timeOfDay = "Evening" feedData = {eveningData} />
+
+
+        </div>
+
+    )
 }
 
 export default DisplayHorseInfo;

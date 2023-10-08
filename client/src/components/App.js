@@ -4,6 +4,7 @@ import Login from "./Login";
 import NavBar from "./NavBar";
 import AddHorse from "./AddHorse"
 import ViewHorse from "./ViewHorse"
+import AddJointOwnership from "./AddJointOwnership"
 
 function App() {
 
@@ -40,7 +41,7 @@ function App() {
           </Route>
 
           <Route exact path = "/AddJointOwnership">
-            <h1>AddJointOwnership</h1>
+            <AddJointOwnership userId = {user.id} />
           </Route>
 
           <Route exact path = "/DeleteHorse">

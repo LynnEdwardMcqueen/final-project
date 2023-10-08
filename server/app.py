@@ -60,26 +60,44 @@ class EveningFeeding(Resource):
 
 
 # Views go here!
+
+class HorseByOtherId(Resource):
+    def get(self,id):
+        print("HorseByOtherId")
+
+        non_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
+
+        non_owned_horse_array = []
+        if non_owned_horses:
+            for horse in non_owned_horses:
+                horse = Horse.query.filter(Horse.id == horse.horse_id).first()
+                non_owned_horse_array.append(horse.get_horse_dictionary())
+
+            response = make_response(non_owned_horse_array, 200)
+        else:
+            response = make_response([], 200)
+
+        return response
+
+
+
 class HorseByUserId(Resource):
     def get(self, id):
         
-        print("HorseByUserId ")
         # Get the join table horse entries corresponding to the user
         user_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
 
         if (user_horses):
             horse_array = []
             for user_horse in user_horses:
-                print(f"horse_id = {user_horse.horse_id}")
                 horse = Horse.query.filter(Horse.id == user_horse.horse_id).first()
-                print(horse)
                 horse_array.append(horse.get_horse_dictionary())
 
             response = make_response(horse_array, 200)
             
         else:
             print("No horses")
-            response = make_response( {}, 200)
+            response = make_response( [], 200)
 
         return response
 
@@ -258,6 +276,7 @@ class UserById(Resource):
 
 api.add_resource(EveningFeeding, '/evening/<int:id>')
 api.add_resource(HorseByUserId, '/horse/<int:id>')
+api.add_resource(HorseByOtherId, '/otherhorse/<int:id>' )
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(MorningFeeding, '/morning/<int:id>')
 api.add_resource(Signup, '/signup', endpoint='signup')
