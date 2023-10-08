@@ -9,7 +9,7 @@ function ViewHorse({userId}) {
   
 
     function handleCardClick(event) {
-        console.log(`The horse id clicked is ${event.target.getAttribute("horseIndex")}`)
+        console.log(`The horse id clicked is ${event.target.getAttribute("horseindex")}`)
         console.log(event)
     }
 

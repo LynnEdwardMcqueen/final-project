@@ -17,7 +17,7 @@
     flex-direction: column; 
 }
 
-.card-h1 {
+.card-p {
     font-size: 1em;
     text-align: center;
     text-transform: capitalize;
@@ -35,4 +35,9 @@
     flex-wrap: wrap;
     
     border: 1px solid red;
+}
+
+.container-title {
+    text-align : center;
+    font-size : 1.2em;
 }
