@@ -8,8 +8,9 @@ function ViewHorse({userId}) {
     const [displayHorses, setDisplayHorses] = useState([])
   
 
-    function handleClick(horseId) {
-        setHorseId(horseId)
+    function handleCardClick(event) {
+        console.log(`The horse id clicked is ${event.target.getAttribute("horseIndex")}`)
+        console.log(event)
     }
 
     useEffect(() => {
@@ -23,7 +24,7 @@ function ViewHorse({userId}) {
     console.log("Finishing pre-return stuff")
 
     return ( 
-        <CardContainer horseList = {displayHorses} onClick = {handleClick} />
+        <CardContainer horseList = {displayHorses} titleMessage = "Click on Horse To View Details" onClick = {handleCardClick}  />
     )
 }
 
