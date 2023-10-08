@@ -63,7 +63,7 @@ class EveningFeeding(Resource):
 
 class HorseByOtherId(Resource):
     def get(self,id):
-        print("HorseByOtherId")
+ 
 
         possible_non_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
         possible_non_owned_ids = []
@@ -80,10 +80,6 @@ class HorseByOtherId(Resource):
             if id not in owned_ids:
                 user_unowned_horses.append(id)
         
-        print(f"*****************The unowned horses are {user_unowned_horses}")
-
-
-       
         non_owned_horse_array = []
         if user_unowned_horses:
             for horse_id in user_unowned_horses:
@@ -129,19 +125,12 @@ class HorseByUserId(Resource):
             response = make_response(horse_array, 200)
             
         else:
-            print("No horses")
             response = make_response( [], 200)
 
         return response
 
     def post(self, id):
         horse_params = request.get_json()
-        print("here in put horse by user id")
-        print(horse_params)
-        for key in horse_params.keys():
-            print(f"horse_params {key} and {horse_params[key]}")
-       
-
         new_horse = Horse (
                 name = get_property_val_from_user_dict("name", horse_params),    
                 vet_name = get_property_val_from_user_dict("vet_name", horse_params),
@@ -150,7 +139,7 @@ class HorseByUserId(Resource):
                 photo_url = get_property_val_from_user_dict("photo_url", horse_params)
         )
         
-        print(f"new_horse = {new_horse}")
+ 
         new_horse_added = True
         try:
             db.session.add(new_horse)
@@ -159,12 +148,10 @@ class HorseByUserId(Resource):
             new_horse_added = False
         
         if (new_horse_added):
-            print("Making entry in the join table")
             new_join_entry = UserHorse(horse_id = new_horse.id,
                 user_id = id
             )
             
-            print(f"new join entry {new_join_entry}")
             join_table_added = True
             try:
                 db.session.add(new_join_entry)
@@ -173,7 +160,6 @@ class HorseByUserId(Resource):
                 join_table_added = False
 
         if new_horse_added and join_table_added:
-            print("Sending the response data")
             response_data = new_horse.get_horse_dictionary()
 
             response = make_response( response_data, 201)
@@ -183,14 +169,51 @@ class HorseByUserId(Resource):
             response = make_response({}, 500 )
 
         return response
+    
+    def delete(self, id):
+    
+        horse_params = request.get_json()
+        horse_id = horse_params["horse_id"]
+        print(f"horse_id = {horse_id}")
+        print(f"id = {id}")
+        user_horse_entry = UserHorse.query.filter(UserHorse.user_id == id, UserHorse.horse_id == horse_id ).first()
+        print(f"UserHorse id = {user_horse_entry.id}")
+        
+        db.session.delete(user_horse_entry)
+        db.session.commit()
+
+        # Now check to see if there are any other entries for that horse.  
+        # If so, it was a co-owned horse.  It is now with the other owner(s),
+        # and you can leave.
+
+        other_owner_check = UserHorse.query.filter(UserHorse.id == horse_id)
+
+        if not other_owner_check:
+            print("No other owners.  Deleting the feedings and the horse.")
+            # There was no other owner.  You must delete the horse and the feeding 
+            # instructions.
+            morning_feeding = MorningFeed.query.filter(MorningFeed.id == horse_id).first()
+            db.session.delete(morning_feeding)
+            db.session.commit()
+
+            evening_feeding = EveningFeed.query.filter(EveningFeed.id == horse_id).first()
+            db.session.delete(evening_feeding)
+            db.session.commit()
+
+            horse_to_delete = Horse.query.filter(Horse.id == horse_id).first()
+            db.session.delete(horse_to_delete)
+            db.session.commit()
+        else:
+            print("Other owners found")
+
+        response = ([], 200)
+        return response
 
 
 class Login(Resource):
     def post(self):
         login_params = request.get_json()
-        print("Here in Login*********************************")
         user_check = User.query.filter(User.username == login_params["username"]).first()
-        print(f"user_check = ${user_check}")
         # have to check the truthiness of user_check in case the username is not found in the database
         if (user_check and user_check.authenticate(login_params["password"])) :
             response = make_response (
@@ -214,9 +237,7 @@ class MorningFeeding(Resource):
         return response
     
     def post(self, id):
-        print("The horse id in MorningFeed post = {id}")
         feed_params = request.get_json()
-        print("Morning feed feed params = {feed_params}")
 
         new_morning_feed = MorningFeed(
             alfalfa_flakes = feed_params["alfalfa_flakes"],
@@ -229,7 +250,6 @@ class MorningFeeding(Resource):
         db.session.add(new_morning_feed)
         db.session.commit()
 
-        print("The new morning feed id = {new_morning_feed.id}")
         horse = Horse.query.filter(Horse.id == id).first()
         horse.morning_feed_id = new_morning_feed.id
 
@@ -280,7 +300,7 @@ class Signup(Resource):
                 201
             )
         else:
-             response = {"error" : "Sign In Failed"   }, 422
+            response = {"error" : "Sign In Failed"   }, 422
         
         return response
     
