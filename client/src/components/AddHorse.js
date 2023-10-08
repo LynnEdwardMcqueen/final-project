@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import AddHorseForm from "./AddHorseForm";
 import AddFeedSessionForm from "./AddFeedSessionForm";
 

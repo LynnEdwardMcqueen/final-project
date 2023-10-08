@@ -1,0 +1,37 @@
+.card {
+    border: 1px solid black;
+    border-radius: 8px;
+    width: 20%;
+    min-width: 150px;
+    margin: 2%;
+}
+
+.card-img {
+    width: 50%; - makes width 50% of the card
+}
+
+.center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    flex-direction: column; 
+}
+
+.card-h1 {
+    font-size: 1em;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.card-desc {
+    width: 90%;
+    padding: 1%;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; This is to keep it from scrolling infinitely horizontal
+    
+    border: 1px solid red;
+}

@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route, useHistory} from "react-router-dom";
-import Login from "./Login";
-import NavBar from "./NavBar";
-import AddHorse from "./AddHorse"
+import React, { useState, useEffect } from "react";
+import CardContainer from "./CardContainer"
+
 
 function ViewHorse({userId}) {
+    const [horseDisplayId, setHorseId] = useState(0)
+    const [displayHorses, setDisplayHorses] = useState([])
+  
+
+    function handleClick(horseId) {
+        setHorseId(horseId)
+    }
+
     useEffect(() => {
         fetch(`/horse/${userId}`)
           .then((r) => r.json())
           .then((horses) => {
-            console.log(horses)
+            setDisplayHorses(horses)
           });
-      }, []);
-    return ( <h1>SURRENDER DOROTHY!</h1>)
+        }, []);
+
+    console.log("Finishing pre-return stuff")
+
+    return ( 
+        <CardContainer horseList = {displayHorses} onClick = {handleClick} />
+    )
 }
 
 export default ViewHorse;
