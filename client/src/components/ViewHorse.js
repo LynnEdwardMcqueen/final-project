@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import CardContainer from "./CardContainer"
+import DisplayHorseInfo from "./DisplayHorseInfo"
 import './Card.css'
 
+let horseArrayIndex
 
 function ViewHorse({userId}) {
-    const [horseDisplayId, setHorseId] = useState(0)
+    const [reRender, setReRender] = useState(0)
     const [displayHorses, setDisplayHorses] = useState([])
+ 
+    
   
 
     function handleCardClick(event) {
-        console.log(`The horse id clicked is ${event.target.getAttribute("horseindex")}`)
-        console.log(event)
+        horseArrayIndex = event.target.getAttribute("horseindex")
+        console.log(`displayHorses[horseArrayIndex].keys() = ${displayHorses[horseArrayIndex].morning_feed_id}`)
+
+        setReRender(reRender + 1)
+   
+
     }
 
     useEffect(() => {
@@ -24,7 +32,15 @@ function ViewHorse({userId}) {
     console.log("Finishing pre-return stuff")
 
     return ( 
-        <CardContainer horseList = {displayHorses} titleMessage = "Click on Horse To View Details" onClick = {handleCardClick}  />
+        <>
+            {(reRender == 0) ? (
+            <CardContainer horseList = {displayHorses} titleMessage = "Click on Horse To View Details" onClick = {handleCardClick}  />
+            ) : (null) }
+
+            {reRender == 1 ? (
+            <DisplayHorseInfo horse = {displayHorses[horseArrayIndex]} index = {horseArrayIndex}  />
+            ) : (null) }
+        </>
     )
 }
 

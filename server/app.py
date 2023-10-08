@@ -110,8 +110,8 @@ class HorseByUserId(Resource):
         if (new_horse_added):
             print("Making entry in the join table")
             new_join_entry = UserHorse(horse_id = new_horse.id,
-                                       user_id = id
-                                      )
+                user_id = id
+            )
             
             print(f"new join entry {new_join_entry}")
             join_table_added = True
