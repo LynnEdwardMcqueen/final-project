@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Redirect} from "react-router-dom";
+import { useHistory, Redirect} from "react-router-dom";
 import AddHorseForm from "./AddHorseForm";
 import AddFeedSessionForm from "./AddFeedSessionForm";
 
@@ -31,8 +31,6 @@ function AddHorse({userId}) {
     
 
     function handleHorseSubmit(horseObject) {
-        console.log("Here in handleHorseSubmit")
-        console.log(`The horse's name is ${horseObject.name}`)
         // Make a copy since the reference goes away at the end of the function.
         newHorseObject = {...horseObject}
         setReRender(reRender + 1)
@@ -47,23 +45,23 @@ function AddHorse({userId}) {
     }
     console.log(`Rendering with reRender = ${reRender}`)
 
-    return (
+    return(
     <>
         {reRender == 0 ? (
-        <AddHorseForm userId = {userId} onSubmit = {handleHorseSubmit} />
+        <AddHorseForm userId = {userId} onSubmit = {handleHorseSubmit} horse = {null}/>
         ) : (null)}
 
         {reRender == 1  ? (
-        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Morning Feed Information"} route = {"morning"} />    
+        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Morning Feed Information"} route = {"morning"} feed = {null} />    
         ) : (null)}
 
         {reRender == 2  ? (
-        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"} route =  {"evening"} />    
+        <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"} route =  {"evening"} feed = {null} />    
         ) : (null)}
         
-        {reRender === 3 ? (
+        {reRender === 3} ? (
         < Redirect to="/" />
-        ) : (null)}
+        )
     </>
     )
 }

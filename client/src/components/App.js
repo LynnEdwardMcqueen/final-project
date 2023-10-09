@@ -6,6 +6,7 @@ import AddHorse from "./AddHorse"
 import ViewHorse from "./ViewHorse"
 import AddJointOwnership from "./AddJointOwnership"
 import DeleteHorse from "./DeleteHorse"
+import EditHorse from "./EditHorse"
 
 function App() {
 
@@ -50,7 +51,7 @@ function App() {
           </Route>
 
           <Route exact path = "/EditHorse">
-            <h1>EditHorse</h1>
+            <EditHorse userId = {user.id} />
           </Route>
 
           <Route exact path = "/EveningSummary">

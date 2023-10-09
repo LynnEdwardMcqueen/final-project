@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-function AddHorseForm({userId, onSubmit }) {
+function AddHorseForm({userId, onSubmit, horse }) {
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter a name"),
@@ -14,18 +14,25 @@ function AddHorseForm({userId, onSubmit }) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      vet_name: "",
-      vet_number: "",    
-      care_notes: "",
-      photo_url : ""
+      name: (horse ? horse.name : ""),
+      vet_name: (horse ? horse.vet_name : ""),
+      vet_number: (horse ? horse.vet_number : ""),    
+      care_notes: (horse ? horse.care_notes : ""),
+      photo_url : (horse ? horse.photo_url : "" ),
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
         console.log("Submission complete!!!")
+        
+        let path
+        if (horse) {
+          path = `horse/${horse.id}` 
+        } else {
+          path = `horse/${userId}`
+        }
        
-      fetch(`horse/${userId}`, {
-        method: "POST",
+      fetch( path , {
+        method: (horse ? "PATCH" : "POST"),
         headers: {
           "Content-Type": "application/json",
         },

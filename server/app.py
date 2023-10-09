@@ -56,6 +56,28 @@ class EveningFeeding(Resource):
         )
 
         return response
+
+    def patch(self, id):
+        feed_params = request.get_json()
+        
+        patch_feeding = EveningFeed.query.filter(EveningFeed.id == id).first()
+
+        for attr in feed_params:
+            setattr(patch_feeding, attr, feed_params.get(attr))
+
+        print(patch_feeding)
+
+        db.session.add(patch_feeding)
+        db.session.commit()
+
+        review_dict = patch_feeding.get_evening_feed_dictionary()
+
+        response = make_response(
+            review_dict,
+            200
+        )
+
+        return response     
     
 
 
@@ -209,6 +231,31 @@ class HorseByUserId(Resource):
         response = ([], 200)
         return response
 
+    def patch(self, id):
+        horse_params = request.get_json()
+        
+        patch_horse = Horse.query.filter(Horse.id == id).first()
+
+        for attr in horse_params:
+            setattr(patch_horse, attr, horse_params.get(attr))
+
+        print(patch_horse)
+
+        db.session.add(patch_horse)
+        db.session.commit()
+
+        review_dict = patch_horse.get_horse_dictionary()
+
+        response = make_response(
+            review_dict,
+            200
+        )
+
+        return response
+
+
+         
+
 
 class Login(Resource):
     def post(self):
@@ -262,6 +309,28 @@ class MorningFeeding(Resource):
         )
 
         return response
+    
+    def patch(self, id):
+        feed_params = request.get_json()
+        
+        patch_feeding = MorningFeed.query.filter(MorningFeed.id == id).first()
+
+        for attr in feed_params:
+            setattr(patch_feeding, attr, feed_params.get(attr))
+
+        print(patch_feeding)
+
+        db.session.add(patch_feeding)
+        db.session.commit()
+
+        review_dict = patch_feeding.get_morning_feed_dictionary()
+
+        response = make_response(
+            review_dict,
+            200
+        )
+
+        return response       
 
 
 

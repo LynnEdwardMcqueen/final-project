@@ -3,12 +3,12 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 
-function AddFeedSessionForm({horseId, onSubmit, title, route }) {
+function AddFeedSessionForm({horseId, onSubmit, title, route, feed}) {
 
   const formSchema = yup.object().shape({
-    alfalfa_flakes : yup.number().notRequired(),
-    grass_hay_flakes : yup.number().notRequired(),
-    grain_pounds : yup.number().notRequired(),
+    alfalfa_flakes : yup.number().notRequired().max(6),
+    grass_hay_flakes : yup.number().notRequired().max(6),
+    grain_pounds : yup.number().notRequired().max(3),
     grain_type : yup.string().notRequired(),
     feed_notes : yup.string().notRequired(),
     
@@ -16,11 +16,11 @@ function AddFeedSessionForm({horseId, onSubmit, title, route }) {
 
   const formik = useFormik({
     initialValues: {
-      alfalfa_flakes: 0,
-      grass_hay_flakes: 0,
-      grain_pounds: 0,    
-      grain_type: "",
-      feed_notes : ""
+      alfalfa_flakes: (feed ? feed.alfalfa_flakes : 0),
+      grass_hay_flakes: (feed ? feed.grass_hay_flakes : 0),
+      grain_pounds: (feed ? feed.grass_hay_flakes : 0),    
+      grain_type: (feed ? feed.grain_type : ""),
+      feed_notes : (feed ? feed.feed_notes : ""),
     },
     validationSchema: formSchema,
     onSubmit: (values) => {     
@@ -28,7 +28,7 @@ function AddFeedSessionForm({horseId, onSubmit, title, route }) {
        
       console.log("Launching the post")
       fetch(`${route}/${horseId}`, {
-        method: "POST",
+        method: (feed ? "PATCH" :"POST"),
         headers: {
           "Content-Type": "application/json",
         },
