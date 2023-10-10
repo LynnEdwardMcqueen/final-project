@@ -59,9 +59,9 @@ function AddHorse({userId}) {
         <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"} route =  {"evening"} feed = {null} />    
         ) : (null)}
         
-        {reRender === 3} ? (
+        {reRender === 3 ? (
         < Redirect to="/" />
-        )
+        ) : (null)}
     </>
     )
 }
