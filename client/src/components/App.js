@@ -7,8 +7,8 @@ import ViewHorse from "./ViewHorse"
 import AddJointOwnership from "./AddJointOwnership"
 import DeleteHorse from "./DeleteHorse"
 import EditHorse from "./EditHorse"
-import EveningFeedSummary from "./EveningFeedSummary"
-import MorningFeedSummary from "./MorningFeedSummary"
+import FeedSummary from "./FeedSummary"
+import Logout from "./Logout"
 
 function App() {
 
@@ -20,20 +20,24 @@ function App() {
     history.push("/")
   }
 
+  function handleLogoutUser(user) {
+    setLoggedIn(null)
+    history.push("/")
+  }
+
   if (user === null) {
     // Go directly to login if no user!
     history.push("/login");
   }
 
   if (!user) {
-    console.log("Since !user, going to login")
     return (
       <div>
         <Login onLoginComplete = {handleLoginUser} />
       </div>
     )
   } else {
-    console.log(`App username = ${user.username}`)
+  
     
     return (
       <div>
@@ -57,7 +61,7 @@ function App() {
           </Route>
 
           <Route exact path = "/EveningSummary">
-            <h1><EveningFeedSummary /></h1>
+            <FeedSummary timeOfDay = {"evening"} title = {"Evening Feed Summary"} />
           </Route>
 
           <Route exact path = "/login">
@@ -65,11 +69,11 @@ function App() {
           </Route>
 
           <Route exact path = "/logout">
-            <h1>Logout</h1>
+            <Logout user = {user} handleLogoutUser = {handleLogoutUser} />
           </Route>
             
           <Route exact path = "/MorningSummary">
-            <h1><MorningFeedSummary /></h1>
+            <FeedSummary timeOfDay = {"morning"} title = {"Morning Feed Summary"} />
           </Route>
 
           <Route exact path = "/ViewHorse" >

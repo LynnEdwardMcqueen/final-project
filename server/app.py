@@ -19,29 +19,25 @@ def get_property_val_from_user_dict(value, user_dict ):
     return None
 
 class EveningFeedSummary(Resource):
-#    foo = db.query(func.sum(EveningFeed.alfalfa_flakes)).first().total()
-# The id parameter is the id of the horse associated with this morning feed data
-    def get(self):
+   
+   def get(self):
+        print("Evening feeding summary")
+        alfalfa_flakes = db.session.query(func.sum(EveningFeed.alfalfa_flakes)).first()
+        grass_hay_flakes = db.session.query(func.sum(EveningFeed.grass_hay_flakes)).first()
+        grain_pounds = db.session.query(func.sum(EveningFeed.grain_pounds)).first()
 
+        response_dictionary = {
+            "alfalfa_flakes"    : alfalfa_flakes[0],
+            "grass_hay_flakes"  : grass_hay_flakes[0],
+            "grain_pounds"      : grain_pounds[0],
+        }
 
-        feed_to_delete = EveningFeed.query.filter(EveningFeed.id == 5).first()
-        db.session.delete(feed_to_delete)
-        db.session.commit()
- 
-        feed_to_delete = EveningFeed.query.filter(EveningFeed.id == 6).first()
-        db.session.delete(feed_to_delete)
-        db.session.commit()
+        response = make_response(
+            response_dictionary,
+            200
+        )
 
-
-# class EveningFeedSummary(Resource):
-#   
-#   def get(self):
-#        print("Evening feeding summary")
-#        alfalfa_flakes = db.session.query(func.sum(EveningFeed.alfalfa_flakes)).first()
-#        grass_hay_flakes = db.session.query(func.sum(EveningFeed.grass_hay_flakes)).first()
-#        sweet_feed_amount = db.session.query(func.sum(EveningFeed.  ))
-#        print(f"The number of alfalfa flakes fed in the evening is {foo}")
-
+        return response
 
 class EveningFeeding(Resource):
 
@@ -105,9 +101,6 @@ class EveningFeeding(Resource):
         return response     
     
 
-
-# Views go here!
-
 class HorseByOtherId(Resource):
     def get(self,id):
  
@@ -125,23 +118,10 @@ class HorseByOtherId(Resource):
         for horse in user_owned_horses:
             owned_ids.append(horse.horse_id)
 
-        print("Other owned horses ")
-        for id in other_owned_ids:
-            print(id)
-
-        print("")
-        print("owned horses")
-        for id in owned_ids:
-            print(id)
-
         user_unowned_horses = []
         for id in other_owned_ids:
             if id not in owned_ids:
                 user_unowned_horses.append(id)
-
-        print('Unowned horses')
-        for id in user_unowned_horses:
-            print(id)
 
         non_owned_horse_array = []
         if user_unowned_horses:
@@ -390,7 +370,24 @@ class MorningFeeding(Resource):
 
         return response       
 
+class MorningFeedSummary(Resource):
+   
+   def get(self):
+        alfalfa_flakes = db.session.query(func.sum(MorningFeed.alfalfa_flakes)).first()
+        grass_hay_flakes = db.session.query(func.sum(MorningFeed.grass_hay_flakes)).first()
+        grain_pounds = db.session.query(func.sum(MorningFeed.grain_pounds)).first()
 
+        response_dictionary = {
+            "alfalfa_flakes"    : alfalfa_flakes[0],
+            "grass_hay_flakes"  : grass_hay_flakes[0],
+            "grain_pounds"      : grain_pounds[0],
+        }
+
+        response = make_response (
+            response_dictionary, 200
+        )
+
+        return response
 
 class Signup(Resource):
     def post(self):
@@ -454,6 +451,7 @@ api.add_resource(HorseByUserId, '/horse/<int:id>')
 api.add_resource(HorseByOtherId, '/otherhorse/<int:id>' )
 api.add_resource(Horses, '/horses')
 api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(MorningFeedSummary, '/morning')
 api.add_resource(MorningFeeding, '/morning/<int:id>')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(UsersById, '/users/<int:id>')
