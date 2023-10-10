@@ -21,7 +21,7 @@ function App() {
   }
 
   if (user === null) {
-    console.log("Going to push login.  Push it real good.")
+    // Go directly to login if no user!
     history.push("/login");
   }
 
@@ -77,7 +77,7 @@ function App() {
           </Route>
 
           <Route path ="/">
-            <h1>Project Client</h1>;
+            <h1></h1>
           </Route>
  
         </Switch>

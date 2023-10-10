@@ -18,13 +18,33 @@ def get_property_val_from_user_dict(value, user_dict ):
         return user_dict[value]
     return None
 
-# class EveningFeedSummary(Resource):
-#   foo = db.query(func.sum(EveningFeed.alfalfa_flakes)).first().total()
+class EveningFeedSummary(Resource):
+#    foo = db.query(func.sum(EveningFeed.alfalfa_flakes)).first().total()
 # The id parameter is the id of the horse associated with this morning feed data
+    def get(self):
+
+
+        feed_to_delete = EveningFeed.query.filter(EveningFeed.id == 5).first()
+        db.session.delete(feed_to_delete)
+        db.session.commit()
+ 
+        feed_to_delete = EveningFeed.query.filter(EveningFeed.id == 6).first()
+        db.session.delete(feed_to_delete)
+        db.session.commit()
+
+
+# class EveningFeedSummary(Resource):
+#   
+#   def get(self):
+#        print("Evening feeding summary")
+#        alfalfa_flakes = db.session.query(func.sum(EveningFeed.alfalfa_flakes)).first()
+#        grass_hay_flakes = db.session.query(func.sum(EveningFeed.grass_hay_flakes)).first()
+#        sweet_feed_amount = db.session.query(func.sum(EveningFeed.  ))
+#        print(f"The number of alfalfa flakes fed in the evening is {foo}")
+
+
 class EveningFeeding(Resource):
 
-    def get(self):
-        totalAlfalfa = EveningFeed.query(func.sum(EveningFeed.alfalfa_flakes))
     def get(self, id):
         eveningFeed = EveningFeed.query.filter(EveningFeed.id == id).first()
 
@@ -92,21 +112,37 @@ class HorseByOtherId(Resource):
     def get(self,id):
  
 
-        possible_non_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
-        possible_non_owned_ids = []
-        for horse in possible_non_owned_horses:
-            possible_non_owned_ids.append(horse.horse_id)
+        # These are all the horses that are owned by other users.  The current user
+        # may or may not already be in joint ownership
+        other_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
+        other_owned_ids = []
+        for horse in other_owned_horses:
+            other_owned_ids.append(horse.horse_id)
+
 
         user_owned_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
         owned_ids = []
         for horse in user_owned_horses:
             owned_ids.append(horse.horse_id)
 
+        print("Other owned horses ")
+        for id in other_owned_ids:
+            print(id)
+
+        print("")
+        print("owned horses")
+        for id in owned_ids:
+            print(id)
+
         user_unowned_horses = []
-        for id in possible_non_owned_ids:
+        for id in other_owned_ids:
             if id not in owned_ids:
                 user_unowned_horses.append(id)
-        
+
+        print('Unowned horses')
+        for id in user_unowned_horses:
+            print(id)
+
         non_owned_horse_array = []
         if user_unowned_horses:
             for horse_id in user_unowned_horses:
@@ -141,14 +177,16 @@ class HorseByUserId(Resource):
     def get(self, id):
         
         # Get the join table horse entries corresponding to the user
-        user_horses = UserHorse.query.filter(UserHorse.horse_id == id).all()
+        user_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
 
         if (user_horses):
             horse_array = []
             for user_horse in user_horses:
-                horse = Horse.query.filter(Horse.id == user_horse.horse_id).first()
+                horse = Horse.query.filter(Horse.id == user_horse.horse_id).first() 
                 horse_array.append(horse.get_horse_dictionary())
 
+            for horse in horse_array:
+                print(f"Name = {horse['name']}")
             response = make_response(horse_array, 200)
             
         else:
@@ -213,7 +251,8 @@ class HorseByUserId(Resource):
         # If so, it was a co-owned horse.  It is now with the other owner(s),
         # and you can leave.
 
-        other_owner_check = UserHorse.query.filter(UserHorse.id == horse_id)
+        other_owner_check = UserHorse.query.filter(UserHorse.user_id == horse_id).first()
+        print(other_owner_check)
 
         if not other_owner_check:
             print("No other owners.  Deleting the feedings and the horse.")
@@ -409,7 +448,7 @@ class UsersById(Resource):
         return response
     
 
-#  api.add_resource(EveningFeedSummary, '/evening')
+api.add_resource(EveningFeedSummary, '/evening')
 api.add_resource(EveningFeeding, '/evening/<int:id>')
 api.add_resource(HorseByUserId, '/horse/<int:id>')
 api.add_resource(HorseByOtherId, '/otherhorse/<int:id>' )

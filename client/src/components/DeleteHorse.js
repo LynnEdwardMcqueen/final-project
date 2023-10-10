@@ -21,7 +21,7 @@ function DeleteHorse({userId}) {
         let horse_id = displayHorses[horseArrayIndex].id
 
         let itemData = {"horse_id" : horse_id}
-        console.log(`itemData.horse_id = ${itemData.horse_id}`)
+
 
         fetch( `horse/${userId}`, {
             method: "DELETE",

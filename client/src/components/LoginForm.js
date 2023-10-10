@@ -43,7 +43,7 @@ function Login({onLoginComplete}) {
 
   return (
     <div>
-      <h1>Customer sign up form</h1>
+      <h1>Log In</h1>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
 
       <label htmlFor="username">User Name</label>

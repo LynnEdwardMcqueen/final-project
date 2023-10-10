@@ -1,8 +1,8 @@
-"""Reset of the database to allow snake case not camel case (we b python) and add photo_url to horse.
+"""Initial build with everything
 
-Revision ID: cbe7620da972
+Revision ID: 4bd6a5f80626
 Revises: 
-Create Date: 2023-10-06 08:26:32.326296
+Create Date: 2023-10-10 09:07:06.755382
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cbe7620da972'
+revision = '4bd6a5f80626'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -48,7 +48,6 @@ def upgrade():
     sa.Column('city', sa.String(), nullable=False),
     sa.Column('state', sa.String(), nullable=False),
     sa.Column('zip', sa.String(), nullable=False),
-    sa.Column('photo_url', sa.String(), nullable=True),
     sa.Column('_password_hash', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')
@@ -59,6 +58,7 @@ def upgrade():
     sa.Column('vet_name', sa.String(), nullable=False),
     sa.Column('vet_number', sa.String(), nullable=False),
     sa.Column('care_notes', sa.String(), nullable=True),
+    sa.Column('photo_url', sa.String(), nullable=True),
     sa.Column('morning_feed_id', sa.Integer(), nullable=True),
     sa.Column('evening_feed_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['evening_feed_id'], ['evening_feeds.id'], name=op.f('fk_horses_evening_feed_id_evening_feeds')),

@@ -25,7 +25,7 @@ function AddJointOwnership({userId}) {
             console.log(`key = ${key} value = ${value[key]}`)
         }
 
-
+    
         fetch(`otherhorse/${userId}`, {
             method: "POST",
             headers: {
@@ -41,6 +41,7 @@ function AddJointOwnership({userId}) {
         setReRender(reRender + 1)
     }
     
+    console.log(`AddJointOwnership userid = ${userId}`)
     useEffect(() => {
         fetch(`/otherhorse/${userId}`)
           .then((r) => r.json())
