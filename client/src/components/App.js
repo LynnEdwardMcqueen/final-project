@@ -7,6 +7,8 @@ import ViewHorse from "./ViewHorse"
 import AddJointOwnership from "./AddJointOwnership"
 import DeleteHorse from "./DeleteHorse"
 import EditHorse from "./EditHorse"
+import EveningFeedSummary from "./EveningFeedSummary"
+import MorningFeedSummary from "./MorningFeedSummary"
 
 function App() {
 
@@ -55,7 +57,7 @@ function App() {
           </Route>
 
           <Route exact path = "/EveningSummary">
-            <h1>EveningSummary</h1>
+            <h1><EveningFeedSummary /></h1>
           </Route>
 
           <Route exact path = "/login">
@@ -67,11 +69,11 @@ function App() {
           </Route>
             
           <Route exact path = "/MorningSummary">
-            <h1>MorningSummary</h1>
+            <h1><MorningFeedSummary /></h1>
           </Route>
 
-          <Route exact path = "/ViewHorse">
-            <h1><ViewHorse userId = {user.id} /></h1>
+          <Route exact path = "/ViewHorse" >
+            <h1><ViewHorse userId = {user.id} isAdmin = {user.username === "Admin"} /></h1>
           </Route>
 
           <Route path ="/">

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import DisplayFeedingInformation from "./DisplayFeedingInformation";
+import DisplayOwnerInformation from "./DisplayOwnerInformation"
 
-function DisplayHorseInfo({horse, index}) {
+function DisplayHorseInfo({horse, index, isAdmin}) {
     const [morningData, setMorningData] = useState({})
     const [eveningData, setEveningData] = useState({})
-    console.log("Here in DisplayHorseInfo")
-    console.log(`index = ${index}`)
-    console.log(`horse.morning_feed_id = ${horse["morning_feed_id"]}`)
-    console.log(`horse.evening_feed_id = ${horse["evening_feed_id"]}`)
 
     useEffect(() => {
         fetch(`/morning/${horse.morning_feed_id}`)
@@ -24,6 +21,8 @@ function DisplayHorseInfo({horse, index}) {
             setEveningData(eveningData)
           });
         }, []);
+
+
     return(
         <div>
             <p>Information for {horse.name}</p>
@@ -32,6 +31,10 @@ function DisplayHorseInfo({horse, index}) {
                 <li>Vet Name and Number:  {horse.vet_name} {horse.vet_number}</li>
                 <li>Care Notes: {horse.care_notes}</li>
             </ul>
+
+            {isAdmin ? (
+            <DisplayOwnerInformation horse = {horse} />
+            ) : (null)}
 
             <DisplayFeedingInformation timeOfDay = "Morning" feedData = {morningData} />
             <DisplayFeedingInformation timeOfDay = "Evening" feedData = {eveningData} />

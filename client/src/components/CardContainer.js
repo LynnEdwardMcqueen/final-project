@@ -4,7 +4,7 @@ import HorseCard from "./HorseCard"
 import "./Card.css";
 
 function CardContainer({horseList, titleMessage, onClick}) {
-    console.log(`in CardContainer ${horseList}`)
+
     return (
         <>
             <p className = "container-title" > {titleMessage}</p>

@@ -6,7 +6,7 @@ import './Card.css'
 
 let horseArrayIndex
 
-function ViewHorse({userId}) {
+function ViewHorse({userId, isAdmin}) {
     const [reRender, setReRender] = useState(0)
     const [displayHorses, setDisplayHorses] = useState([])
  
@@ -20,8 +20,11 @@ function ViewHorse({userId}) {
         setReRender(reRender + 1)
     }
 
+    let useEffectPath = isAdmin ? '/horses' : `/horse/${userId}`
+
+
     useEffect(() => {
-        fetch(`/horse/${userId}`)
+        fetch(useEffectPath)
           .then((r) => r.json())
           .then((horses) => {
             setDisplayHorses(horses)
@@ -37,7 +40,7 @@ function ViewHorse({userId}) {
 
             {reRender === 1 ? (
             <>    
-            <DisplayHorseInfo horse = {displayHorses[horseArrayIndex]} index = {horseArrayIndex}  />
+            <DisplayHorseInfo horse = {displayHorses[horseArrayIndex]} index = {horseArrayIndex} isAdmin = {isAdmin} />
             <button onClick = {handleExitClick}>Click to Exit</button>
             </>
             ) : (null) }
