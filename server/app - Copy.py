@@ -4,7 +4,6 @@
 
 # Remote library imports
 from flask import request, make_response, session
-from sqlalchemy import func
 from flask_restful import Resource
 
 
@@ -18,13 +17,9 @@ def get_property_val_from_user_dict(value, user_dict ):
         return user_dict[value]
     return None
 
-# class EveningFeedSummary(Resource):
-#   foo = db.query(func.sum(EveningFeed.alfalfa_flakes)).first().total()
 # The id parameter is the id of the horse associated with this morning feed data
 class EveningFeeding(Resource):
 
-    def get(self):
-        totalAlfalfa = EveningFeed.query(func.sum(EveningFeed.alfalfa_flakes))
     def get(self, id):
         eveningFeed = EveningFeed.query.filter(EveningFeed.id == id).first()
 
@@ -141,7 +136,7 @@ class HorseByUserId(Resource):
     def get(self, id):
         
         # Get the join table horse entries corresponding to the user
-        user_horses = UserHorse.query.filter(UserHorse.horse_id == id).all()
+        user_horses = UserHorse.query.filter(UserHorse.user_id == id).all()
 
         if (user_horses):
             horse_array = []
@@ -258,22 +253,8 @@ class HorseByUserId(Resource):
 
         return response
 
-class Horses(Resource):
-    def get(self):
-        print("Here in Horses")
-        horses = Horse.query.all()
 
-        for horse in horses:
-            print(horse)
-
-        response_data = []
-        for horse in horses:
-            response_data.append(horse.get_horse_dictionary())
-        
-
-        response = make_response(response_data, 200) 
-        return response
-
+         
 
 
 class Login(Resource):
@@ -393,31 +374,35 @@ class Signup(Resource):
         return response
     
 
-class UsersById(Resource):
+class UserById(Resource):
 
-    def get(self, id) :
+    def patch(self, id) :
 
-        print(f"id = {id}")
-        user_horse_data = UserHorse.query.filter(UserHorse.horse_id == id).all()
-        
-        owner_list = []
-        for user in user_horse_data:
-            owner = User.query.filter(User.id == user.user_id).first()
-            owner_list.append(owner.get_user_dictionary())
+        user = User.query.filter(User.id == id).first()
 
-        response = make_response(owner_list, 200)
+        for attr in request.form:
+            setattr(user, attr, request.form[attr])
+
+        db.session.add(user)
+        db.session.commit()
+
+        response_dict = user.to_dict()
+
+        response = make_response(
+            response_dict,
+            200
+        )
+
         return response
-    
 
-#  api.add_resource(EveningFeedSummary, '/evening')
+
 api.add_resource(EveningFeeding, '/evening/<int:id>')
 api.add_resource(HorseByUserId, '/horse/<int:id>')
 api.add_resource(HorseByOtherId, '/otherhorse/<int:id>' )
-api.add_resource(Horses, '/horses')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(MorningFeeding, '/morning/<int:id>')
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(UsersById, '/users/<int:id>')
+api.add_resource(UserById, '/user/<int:id>')
                  
 @app.route('/')
 def index():
