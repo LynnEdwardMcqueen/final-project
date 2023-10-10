@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DisplayFeedingInformation from "./DisplayFeedingInformation";
+import "./Display.css"
 
 function DisplayOwnerInformation({horse}) {
     const[owners, setOwners] = useState([])
@@ -15,9 +15,9 @@ function DisplayOwnerInformation({horse}) {
     let ownerList = owners.map((owner) => {
         return(
         <ul key = {owner.id}>Owner Contact Info
-            <li key = {owner.id + 1}>{owner.first_name} {owner.last_name}</li>
-            <li key = {owner.id + 2}>Phone Number: {owner.phone}</li> 
-            <li key = {owner.id + 3}>Email: {owner.email}</li>
+            <li key = {owner.id + 1} className = "list-display">{owner.first_name} {owner.last_name}</li>
+            <li key = {owner.id + 2} className = "list-display">Phone Number: {owner.phone}</li> 
+            <li key = {owner.id + 3} className = "list-display">Email: {owner.email}</li>
         </ul>
         )
     })

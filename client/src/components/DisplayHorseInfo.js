@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DisplayFeedingInformation from "./DisplayFeedingInformation";
 import DisplayOwnerInformation from "./DisplayOwnerInformation"
+import "./Display.css"
 
 function DisplayHorseInfo({horse, index, isAdmin}) {
     const [morningData, setMorningData] = useState({})
@@ -28,8 +29,8 @@ function DisplayHorseInfo({horse, index, isAdmin}) {
             <p>Information for {horse.name}</p>
 
             <ul>Vet Contact and Care Info
-                <li>Vet Name and Number:  {horse.vet_name} {horse.vet_number}</li>
-                <li>Care Notes: {horse.care_notes}</li>
+                <li className = "list-display">Vet Name and Number:  {horse.vet_name} {horse.vet_number}</li>
+                <li className = "list-display">Care Notes: {horse.care_notes}</li>
             </ul>
 
             {isAdmin ? (

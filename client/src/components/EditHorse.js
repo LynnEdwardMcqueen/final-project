@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Redirect} from "react-router-dom";
 import CardContainer from "./CardContainer"
 import AddHorseForm from "./AddHorseForm";
 import AddFeedSessionForm from "./AddFeedSessionForm";
@@ -89,7 +90,9 @@ function EditHorse({userId}) {
                 <AddFeedSessionForm horseId = {newHorseObject.id} onSubmit = {handleFeedSubmit} title = {"Evening Feed Information"} route =  {"evening"} feed = {eveningData} />  
             ) : (null) }
 
-
+            {reRender === 4 ? (
+                < Redirect to="/" />
+            ) : (null) }
 
 
         </>

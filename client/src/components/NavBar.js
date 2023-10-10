@@ -85,6 +85,20 @@ function NavBar({username}) {
       {username === "Admin" ? 
       (
       <NavLink
+        to="/MorningSummary"
+        exact
+        style={linkStyles}
+        activeStyle={{
+          background: "darkblue",
+        }}
+      >
+        Morning Summary
+      </NavLink>
+      
+      ) : (null) }
+      {username === "Admin" ? 
+      (
+      <NavLink
         to="/EveningSummary"
         exact
         style={linkStyles}
@@ -96,19 +110,7 @@ function NavBar({username}) {
       </NavLink>
       ) : (null) }
 
-      {username === "Admin" ? 
-      (
-      <NavLink
-        to="/MorningSummary"
-        exact
-        style={linkStyles}
-        activeStyle={{
-          background: "darkblue",
-        }}
-      >
-        Morning Summary
-      </NavLink>
-      ) : (null) }
+
 
       <NavLink
         to="/ViewHorse"
