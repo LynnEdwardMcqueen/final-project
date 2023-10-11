@@ -18,7 +18,7 @@ function AddFeedSessionForm({horseId, onSubmit, title, route, feed}) {
     initialValues: {
       alfalfa_flakes: (feed ? feed.alfalfa_flakes : 0),
       grass_hay_flakes: (feed ? feed.grass_hay_flakes : 0),
-      grain_pounds: (feed ? feed.grass_hay_flakes : 0),    
+      grain_pounds: (feed ? feed.grain_pounds : 0),    
       grain_type: (feed ? feed.grain_type : ""),
       feed_notes : (feed ? feed.feed_notes : ""),
     },
