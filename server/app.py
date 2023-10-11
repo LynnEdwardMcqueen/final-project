@@ -105,6 +105,7 @@ class HorseByOtherId(Resource):
     def get(self,id):
  
 
+        print("HorseByOtherId")
         # These are all the horses that are owned by other users.  The current user
         # may or may not already be in joint ownership
         other_owned_horses = UserHorse.query.filter(UserHorse.user_id != id).all()
@@ -118,7 +119,11 @@ class HorseByOtherId(Resource):
         for horse in user_owned_horses:
             owned_ids.append(horse.horse_id)
 
+        # Get rid of duplicate entries
+        other_owned_ids = set(other_owned_ids)
+
         user_unowned_horses = []
+        print(f"other_owned_ids {other_owned_ids}")
         for id in other_owned_ids:
             if id not in owned_ids:
                 user_unowned_horses.append(id)
